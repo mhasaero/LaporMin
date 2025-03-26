@@ -9,7 +9,7 @@ export default function Register() {
         password_confirmation: "",
     });
 
-    const submit = (e: any) => {
+    const submit = (e) => {
         e.preventDefault();
 
         post(route("register"), {
@@ -71,7 +71,7 @@ export default function Register() {
                     </form>
                     <div className="text-center mt-4 font-weight-light">
                         <Link
-                            href={route("login")}
+                            to="/login"
                             className="text-black font-semibold hover:text-gray-500 hover:font-semibold"
                         >
                             or sign in ?

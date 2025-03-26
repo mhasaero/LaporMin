@@ -1,74 +1,71 @@
-"use client";
-
 import GuestLayout from "@/Layouts/GuestLayout";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { Button } from "@/Components/ui/button";
-import { Input } from "@/Components/ui/input";
-import {
-    Form,
-    FormControl,
-    FormDescription,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from "@/Components/ui/form";
-import { Head } from "@inertiajs/react";
+import { Head, Link, useForm } from "@inertiajs/react";
 
 type Props = {
     status: string;
     canResetPassword: string;
 };
 
-// 1. Move schema declaration outside the component
-const formSchema = z.object({
-    username: z.string().min(2, {
-        message: "Username must be at least 2 characters.",
-    }),
-});
-
 export default function Login({ status, canResetPassword }: Props) {
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
-        defaultValues: {
-            username: "",
-        },
+    const { data, setData, post, processing, errors, reset } = useForm({
+        email: "",
+        password: "",
+        remember: false,
     });
 
-    function onSubmit(values: z.infer<typeof formSchema>) {
-        console.log(values);
-    }
+    const submit = (e: any) => {
+        e.preventDefault();
+
+        post(route("login"), {
+            onFinish: () => reset("password"),
+        });
+    };
 
     return (
         <GuestLayout>
             <Head title="Log in" />
-
-            <Form {...form}>
-                <form
-                    onSubmit={form.handleSubmit(onSubmit)}
-                    className="space-y-8"
-                >
-                    <FormField
-                        control={form.control}
-                        name="username"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Username</FormLabel>
-                                <FormControl>
-                                    <Input placeholder="shadcn" {...field} />
-                                </FormControl>
-                                <FormDescription>
-                                    This is your public display name.
-                                </FormDescription>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                    <Button type="submit">Submit</Button>
-                </form>
-            </Form>
+            <section className="flex justify-end items-end h-screen w-full bg-[url(/img/Group3.png)] bg-contain">
+                <div className="w-1/3 h-screen bg-white flex flex-col items-center justify-center">
+                    <h1 className="font-bold text-2xl">Sign In</h1>
+                    <form className="pt-12 flex flex-col gap-6">
+                        <div>
+                            <input
+                                type="text"
+                                className="w-80 rounded-3xl px-6 py-2"
+                                name="nim"
+                                id="nim"
+                                placeholder="nim"
+                            />
+                        </div>
+                        <div>
+                            <input
+                                type="text"
+                                className="w-80 rounded-3xl px-6 py-2"
+                                name="password"
+                                id="password"
+                                placeholder="password"
+                            />
+                        </div>
+                        <div className="mt-3 flex justify-center">
+                            <button
+                                type="submit"
+                                className="w-80 rounded-3xl px-6 py-2 border-[#23318C] border-2 bg-[#23318C] text-white hover:bg-[#384ac1]"
+                            >
+                                sign in
+                            </button>
+                        </div>
+                    </form>
+                    <div className="text-center mt-4 font-weight-light">
+                        <span className="mr-2">don't have account ?</span>
+                        <Link
+                            href={route("register")}
+                            className="text-black font-semibold hover:text-gray-500 hover:font-semibold"
+                        >
+                            sign up
+                        </Link>
+                    </div>
+                </div>
+            </section>
         </GuestLayout>
     );
 }
