@@ -24,77 +24,46 @@ export default function Login({ status, canResetPassword }) {
     return (
         <GuestLayout>
             <Head title="Log in" />
-
-            {status && (
-                <div className="mb-4 text-sm font-medium text-green-600">
-                    {status}
-                </div>
-            )}
-
-            <form onSubmit={submit}>
-                <div>
-                    <InputLabel htmlFor="email" value="Email" />
-
-                    <TextInput
-                        id="email"
-                        type="email"
-                        name="email"
-                        value={data.email}
-                        className="mt-1 block w-full"
-                        autoComplete="username"
-                        isFocused={true}
-                        onChange={(e) => setData('email', e.target.value)}
-                    />
-
-                    <InputError message={errors.email} className="mt-2" />
-                </div>
-
-                <div className="mt-4">
-                    <InputLabel htmlFor="password" value="Password" />
-
-                    <TextInput
-                        id="password"
-                        type="password"
-                        name="password"
-                        value={data.password}
-                        className="mt-1 block w-full"
-                        autoComplete="current-password"
-                        onChange={(e) => setData('password', e.target.value)}
-                    />
-
-                    <InputError message={errors.password} className="mt-2" />
-                </div>
-
-                <div className="mt-4 block">
-                    <label className="flex items-center">
-                        <Checkbox
-                            name="remember"
-                            checked={data.remember}
-                            onChange={(e) =>
-                                setData('remember', e.target.checked)
-                            }
-                        />
-                        <span className="ms-2 text-sm text-gray-600">
-                            Remember me
-                        </span>
-                    </label>
-                </div>
-
-                <div className="mt-4 flex items-center justify-end">
-                    {canResetPassword && (
+            <section className="flex justify-end items-end h-screen w-full bg-[url(/img/Group3.png)] bg-contain">
+                <div className="w-1/3 h-screen bg-white flex flex-col items-center justify-center">
+                    <h1 className="font-bold text-2xl">Sign In</h1>
+                    <form className="pt-12 flex flex-col gap-6">
+                        <div>
+                            <input
+                                type="text"
+                                className="w-80 rounded-3xl px-6 py-2"
+                                name="nim"
+                                id="nim"
+                                placeholder="nim"
+                            />
+                        </div>
+                        <div>
+                            <input
+                                type="text"
+                                className="w-80 rounded-3xl px-6 py-2"
+                                name="password"
+                                id="password"
+                                placeholder="password"
+                            />
+                        </div>
+                        <div className="mt-3 flex justify-center">
+                            <button
+                                type="submit"
+                                className="w-80 rounded-3xl px-6 py-2 border-[#23318C] border-2 bg-[#23318C] text-white hover:bg-[#384ac1]">
+                                sign in
+                            </button>
+                        </div>
+                    </form>
+                    <div className="text-center mt-4 font-weight-light">
+                        <span className="mr-2">don't have account ?</span>
                         <Link
-                            href={route('password.request')}
-                            className="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                        >
-                            Forgot your password?
+                            to="/login"
+                            className="text-black font-semibold hover:text-gray-500 hover:font-semibold">
+                            sign up
                         </Link>
-                    )}
-
-                    <PrimaryButton className="ms-4" disabled={processing}>
-                        Log in
-                    </PrimaryButton>
+                    </div>
                 </div>
-            </form>
+            </section>
         </GuestLayout>
     );
 }
