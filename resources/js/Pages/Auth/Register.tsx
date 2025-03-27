@@ -20,7 +20,7 @@ export default function Register() {
     return (
         <GuestLayout>
             <Head title="Register" />
-            <section className="flex justify-end items-end h-screen w-full bg-[#23318C]">
+            <section className="flex justify-end items-end h-screen w-full bg-[url(/img/Group3.png)] bg-contain">
                 <div className="w-1/3 h-screen bg-white flex flex-col items-center justify-center">
                     <h1 className="font-bold text-2xl">Sign Up</h1>
                     <form className="pt-12 flex flex-col gap-6">
