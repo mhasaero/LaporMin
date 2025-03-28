@@ -1,26 +1,58 @@
 import { Link, usePage } from "@inertiajs/react";
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, NavLinkProps } from "react-router-dom";
 
 export default function AuthenticatedLayout({ header, children }: any) {
     // const user = usePage().props.auth.user;
+
+    const { url, component } = usePage();
 
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
         useState(false);
 
     return (
-        <div className="flex h-16 justify-between">
-            <div className="flex">
-                <div className="flex shrink-0 items-center">
+        <div className="mx-12 font-inter font-medium">
+            <nav className="flex justify-between my-6">
+                <div className="flex shrink-0 items-center text-2xl">
                     <Link href="/">
                         <h1>LaporMin</h1>
                     </Link>
                 </div>
-
-                <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <NavLink to={route("dashboard")}>Dashboard</NavLink>
+                <div className="flex text-xl">
+                    <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <Link
+                            href={"/"}
+                            className={url === "/" ? "border-b-2" : ""}
+                        >
+                            Home
+                        </Link>
+                    </div>
+                    <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <Link
+                            href={route("inventaris")}
+                            className={
+                                url === route("inventaris") ? "border-b-2" : ""
+                            }
+                        >
+                            Inventaris
+                        </Link>
+                    </div>
+                    <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <Link
+                            href={route("pengaduan")}
+                            className={
+                                url === route("pengaduan") ? "border-b-2" : ""
+                            }
+                        >
+                            Pengaduan
+                        </Link>
+                    </div>
                 </div>
-            </div>
+                <div className="flex text-xl gap-4">
+                    <div>icon box</div>
+                    <div>profile</div>
+                </div>
+            </nav>
 
             {header && (
                 <header className="bg-white shadow">

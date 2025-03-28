@@ -14,6 +14,15 @@ Route::get('/', function () {
     ]);
 });
 
+Route::get('/inventaris', function () {
+    return Inertia::render('Dashboard/Inventaris');
+})->name('inventaris');
+
+Route::get('/pengaduan', function () {
+    return Inertia::render('Dashboard/Pengaduan');
+})->name('pengaduan');
+
+
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard/Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
