@@ -80,6 +80,7 @@ export default function Login() {
                                                 placeholder="password"
                                                 className="w-80 rounded-3xl px-6 py-2 border-2 text-md"
                                                 {...field}
+                                                type="password"
                                             />
                                         </FormControl>
                                         <FormMessage />

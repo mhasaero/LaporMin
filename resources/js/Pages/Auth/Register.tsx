@@ -106,6 +106,7 @@ export default function Register() {
                                                 placeholder="password"
                                                 className="w-80 rounded-3xl px-6 py-2 border-2 text-md"
                                                 {...field}
+                                                type="password"
                                             />
                                         </FormControl>
                                         <FormMessage />
@@ -122,6 +123,7 @@ export default function Register() {
                                                 placeholder="konfirmasi password"
                                                 className="w-80 rounded-3xl px-6 py-2 border-2 text-md"
                                                 {...field}
+                                                type="password"
                                             />
                                         </FormControl>
                                         <FormMessage />
