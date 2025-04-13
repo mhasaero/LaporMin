@@ -47,6 +47,11 @@ class User extends Authenticatable
         ];
     }
 
+    public function peminjamans()
+    {
+        return $this->hasMany(Peminjaman::class, 'barang_id');
+    }
+
    public function getUserPermissions()
     {
         return $this->getAllPermissions()->mapWithKeys(fn($permission) => [$permission['name'] => true]);
