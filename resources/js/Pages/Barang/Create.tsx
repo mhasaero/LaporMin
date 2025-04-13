@@ -87,8 +87,9 @@ export default function CreateBarangPage() {
                         className="w-full p-2 border rounded"
                     >
                         <option value="">Pilih Status</option>
-                        <option value="tersedia">Tersedia</option>
-                        <option value="habis">Habis</option>
+                        <option value="Tersedia">Tersedia</option>
+                        <option value="Sedang Dipinjam">Sedang Dipinjam</option>
+                        <option value="Rusak">Rusak</option>
                     </select>
                     {errors.status && (
                         <div className="text-red-500 text-sm">

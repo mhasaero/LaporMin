@@ -33,8 +33,16 @@ export default function BarangIndex({ barang }: any) {
 
     const handleUpdate = (e: any) => {
         e.preventDefault();
+
         router.put(route("barang.update", form.id), form, {
-            onSuccess: () => closeEditModal(),
+            onSuccess: () => {
+                closeEditModal(); // modal tutup
+                alert("Update berhasil!"); // feedback sukses
+            },
+            onError: (errors) => {
+                console.log(errors); // validasi dari Laravel
+                alert("Update gagal. Periksa console!");
+            },
         });
     };
 
@@ -145,8 +153,11 @@ export default function BarangIndex({ barang }: any) {
                                     setForm({ ...form, status: e.target.value })
                                 }
                             >
-                                <option value="tersedia">Tersedia</option>
-                                <option value="habis">Habis</option>
+                                <option value="Tersedia">Tersedia</option>
+                                <option value="Sedang Dipinjam">
+                                    Sedang Dipinjam
+                                </option>
+                                <option value="Rusak">Rusak</option>
                             </select>
                             <input
                                 type="text"

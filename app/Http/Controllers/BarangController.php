@@ -31,13 +31,13 @@ class BarangController extends Controller
             'kategori'    => 'required|string|max:100',
             'deskripsi'   => 'nullable|string',
             'stok'        => 'required|integer|min:0',
-            'status'      => 'required|in:tersedia,habis',
+            'status'      => 'required|in:Tersedia,Sedang Dipinjam,Rusak',
             'lokasi'      => 'required|string|max:100',
         ]);
 
         Barang::create($validated);
 
-        return redirect()->route('barang.create')->with('success', 'Barang berhasil ditambahkan!');
+        return redirect()->route('barang.index')->with('success', 'Barang berhasil ditambahkan!');
     }
 
     public function update(Request $request, Barang $barang)
@@ -47,7 +47,7 @@ class BarangController extends Controller
             'kategori'    => 'required|string|max:100',
             'deskripsi'   => 'nullable|string',
             'stok'        => 'required|integer|min:0',
-            'status'      => 'required|in:tersedia,habis',
+            'status'      => 'required|in:Tersedia,Sedang Dipinjam,Rusak',
             'lokasi'      => 'required|string|max:100',
         ]);
 
