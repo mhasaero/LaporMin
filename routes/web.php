@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\BarangController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -18,10 +19,17 @@ Route::get('/inventaris', function () {
     return Inertia::render('Dashboard/Inventaris');
 })->name('inventaris');
 
+Route::get('/barang', [BarangController::class, 'index'])->name('barang.index');
+Route::get('/barang/create', function () {
+    return inertia('Barang/Create');
+})->name('barang.create');
+Route::post('/barang', [BarangController::class, 'store'])->name('barang.store');
+Route::put('/barang/{barang}', [BarangController::class, 'update'])->name('barang.update');
+Route::delete('/barang/{barang}', [BarangController::class, 'destroy'])->name('barang.destroy');
+
 Route::get('/pengaduan', function () {
     return Inertia::render('Dashboard/Pengaduan');
 })->name('pengaduan');
-
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard/Dashboard');
