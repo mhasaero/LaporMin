@@ -3,54 +3,70 @@ import { Head, Link } from "@inertiajs/react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { router } from "@inertiajs/react";
 import {
     Form,
     FormControl,
-    FormDescription,
     FormField,
     FormItem,
-    FormLabel,
     FormMessage,
 } from "@/Components/ui/form";
 import { Input } from "@/Components/ui/input";
 import { Button } from "@/Components/ui/button";
 
-const formSchema = z.object({
-    username: z.string().regex(/^[A-Za-z0-9 .,_]+$/, {
-        message: "Username tidak boleh kosong.",
-    }),
-    email: z
-        .string()
-        .regex(
-            /^(09021182429(00[1-9]|0[1-2][0-9]|03[0-7])\b)+@([student.unsri.ac.id]+)|(09021282429(03[8-9]|0[4-9][0-9]|1[0-1][0-9]|12[0-6])\b)+@([student.unsri.ac.id]+)|(09021382126(12[7-9]|1[3-6][0-9]|17[0-1])\b)+@([student.unsri.ac.id]+)|(09021182328(00[1-9]|0[1-2][0-9]|03[0-2])\b)+@([student.unsri.ac.id]+)|(09021282328(03[3-9]|0[4-9][0-9]|1[0-1][0-9]|12[0-5])\b)+@([student.unsri.ac.id]+)|(09021382126(12[6-9]|1[3-6][0-9]|17[0-1])\b)+@([student.unsri.ac.id]+)|(09021182227(00[1-9]|0[1-2][0-9]|03[0-3])\b)+@([student.unsri.ac.id]+)|(09021282227(03[4-9]|0[4-9][0-9]|1[0-1][0-9])\b)+@([student.unsri.ac.id]+)|(09021382227(120|1[3-6][0-9]|17[0-9])\b)+@([student.unsri.ac.id]+)|(09021182126(00[1-9]|0[1-2][0-9]|03[0-3])\b)+@([student.unsri.ac.id]+)|(09021282126(03[4-9]|0[4-9][0-9]|1[0-1][0-9])\b)+@([student.unsri.ac.id]+)|(09021382126(12[0-9]|1[3-6][0-9]|17[0-5])\b)+@([student.unsri.ac.id]+)/,
-            {
-                message: "Email harus merupakan email UNSRI",
-            }
-        ),
-    password: z.string().regex(/^[A-Za-z0-9 .,_]+$/, {
-        message: "Password tidak boleh kosong.",
-    }),
-    confirm_password: z.string().regex(/^[A-Za-z0-9 .,_]+$/, {
-        message: "Kolom ini tidak boleh kosong.",
-    }),
-});
+const formSchema = z
+    .object({
+        name: z.string().regex(/^[A-Za-z0-9 .,_]+$/, {
+            message: "Username tidak boleh kosong.",
+        }),
+        email: z
+            .string()
+            .regex(
+                /^(09021182429(00[1-9]|0[1-2][0-9]|03[0-7])\b)+@([student.unsri.ac.id]+)|(09021282429(03[8-9]|0[4-9][0-9]|1[0-1][0-9]|12[0-6])\b)+@([student.unsri.ac.id]+)|(09021382126(12[7-9]|1[3-6][0-9]|17[0-1])\b)+@([student.unsri.ac.id]+)|(09021182328(00[1-9]|0[1-2][0-9]|03[0-2])\b)+@([student.unsri.ac.id]+)|(09021282328(03[3-9]|0[4-9][0-9]|1[0-1][0-9]|12[0-5])\b)+@([student.unsri.ac.id]+)|(09021382126(12[6-9]|1[3-6][0-9]|17[0-1])\b)+@([student.unsri.ac.id]+)|(09021182227(00[1-9]|0[1-2][0-9]|03[0-3])\b)+@([student.unsri.ac.id]+)|(09021282227(03[4-9]|0[4-9][0-9]|1[0-1][0-9])\b)+@([student.unsri.ac.id]+)|(09021382227(120|1[3-6][0-9]|17[0-9])\b)+@([student.unsri.ac.id]+)|(09021182126(00[1-9]|0[1-2][0-9]|03[0-3])\b)+@([student.unsri.ac.id]+)|(09021282126(03[4-9]|0[4-9][0-9]|1[0-1][0-9])\b)+@([student.unsri.ac.id]+)|(09021382126(12[0-9]|1[3-6][0-9]|17[0-5])\b)+@([student.unsri.ac.id]+)/,
+                {
+                    message: "Email harus merupakan email UNSRI",
+                }
+            ),
+        password: z.string().regex(/^[A-Za-z0-9 .,_]+$/, {
+            message: "Password tidak boleh kosong.",
+        }),
+        password_confirmation: z.string().regex(/^[A-Za-z0-9 .,_]+$/, {
+            message: "Kolom ini tidak boleh kosong.",
+        }),
+    })
+    .refine((data) => data.password === data.password_confirmation, {
+        message: "Password dan konfirmasi harus sama.",
+        path: ["confirm_password"],
+    });
 
 export default function Register() {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             email: "",
-            username: "",
+            name: "",
             password: "",
-            confirm_password: "",
+            password_confirmation: "",
         },
     });
 
-    // 2. Define a submit handler.
     function onSubmit(values: z.infer<typeof formSchema>) {
-        // Do something with the form values.
-        // ✅ This will be type-safe and validated.
-        console.log(values);
+        const fixedValues = {
+            ...values,
+            nim: values.email.split("@")[0],
+            fakultas: "Ilmu Komputer",
+            jurusan: "Teknik Informatika",
+            no_telp: "086171215412",
+        };
+        console.log(fixedValues);
+        // router.post(route("register"), fixedValues, {
+        //     onError: (errors) => {
+        //         console.error("Error dari server:", errors);
+        //     },
+        //     onSuccess: () => {
+        //         console.log("Data berhasil dikirim!");
+        //     },
+        // });
     }
 
     return (
@@ -82,7 +98,7 @@ export default function Register() {
                             />
                             <FormField
                                 control={form.control}
-                                name="username"
+                                name="name"
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormControl>
@@ -115,7 +131,7 @@ export default function Register() {
                             />
                             <FormField
                                 control={form.control}
-                                name="confirm_password"
+                                name="password_confirmation"
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormControl>

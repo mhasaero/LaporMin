@@ -1,15 +1,14 @@
 import GuestLayout from "@/Layouts/GuestLayout";
 import { Head, Link } from "@inertiajs/react";
 import { z } from "zod";
+import { router } from "@inertiajs/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import {
     Form,
     FormControl,
-    FormDescription,
     FormField,
     FormItem,
-    FormLabel,
     FormMessage,
 } from "@/Components/ui/form";
 import { Input } from "@/Components/ui/input";
@@ -39,7 +38,7 @@ export default function Login() {
     });
 
     function onSubmit(values: z.infer<typeof formSchema>) {
-        console.log(values);
+        router.post(route("login"), values);
     }
 
     return (
