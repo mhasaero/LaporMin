@@ -66,7 +66,9 @@ export default function AuthenticatedLayout({ header, children }: any) {
                 </div>
                 <div className="flex text-xl gap-4">
                     <div>icon box</div>
-                    <div>profile</div>
+                    <Link href={route("profile.edit")} method="get" as="button">
+                        Profile
+                    </Link>
                     <Link href={route("logout")} method="post" as="button">
                         Logout
                     </Link>
