@@ -6,7 +6,10 @@ import { Head } from "@inertiajs/react";
 export default function Home() {
     return (
         <AuthenticatedLayout>
-            <HeroSection />
+            <div className="flex flex-col gap-40">
+                <HeroSection />
+                <h1>Investaris</h1>
+            </div>
         </AuthenticatedLayout>
     );
 }

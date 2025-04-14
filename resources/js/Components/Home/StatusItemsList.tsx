@@ -1,7 +1,7 @@
 import React from "react";
-import StuffItem from "./StatusItem";
+import StatusItem from "./StatusItem";
 
-export default function ItemStatusList() {
+export default function StatusItemList() {
     const itemList = [
         {
             id: 1,
@@ -38,7 +38,7 @@ export default function ItemStatusList() {
                     </h1>
                     <div className="flex flex-col gap-2">
                         {itemList.map((e) => (
-                            <StuffItem name={e.name} />
+                            <StatusItem name={e.name} />
                         ))}
                     </div>
                 </div>
