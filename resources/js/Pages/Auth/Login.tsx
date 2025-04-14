@@ -38,7 +38,14 @@ export default function Login() {
     });
 
     function onSubmit(values: z.infer<typeof formSchema>) {
-        router.post(route("login"), values);
+        router.post(route("login"), values, {
+            onError: (errors) => {
+                console.error("Error dari server:", errors);
+            },
+            onSuccess: () => {
+                console.log("Data berhasil dikirim!");
+            },
+        });
     }
 
     return (

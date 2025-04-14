@@ -13,6 +13,7 @@ import {
 } from "@/Components/ui/form";
 import { Input } from "@/Components/ui/input";
 import { Button } from "@/Components/ui/button";
+import { fakultasValidate, jurusanValidate } from "@/utils/nimValidate";
 
 const formSchema = z
     .object({
@@ -22,7 +23,7 @@ const formSchema = z
         email: z
             .string()
             .regex(
-                /^(09021182429(00[1-9]|0[1-2][0-9]|03[0-7])\b)+@([student.unsri.ac.id]+)|(09021282429(03[8-9]|0[4-9][0-9]|1[0-1][0-9]|12[0-6])\b)+@([student.unsri.ac.id]+)|(09021382126(12[7-9]|1[3-6][0-9]|17[0-1])\b)+@([student.unsri.ac.id]+)|(09021182328(00[1-9]|0[1-2][0-9]|03[0-2])\b)+@([student.unsri.ac.id]+)|(09021282328(03[3-9]|0[4-9][0-9]|1[0-1][0-9]|12[0-5])\b)+@([student.unsri.ac.id]+)|(09021382126(12[6-9]|1[3-6][0-9]|17[0-1])\b)+@([student.unsri.ac.id]+)|(09021182227(00[1-9]|0[1-2][0-9]|03[0-3])\b)+@([student.unsri.ac.id]+)|(09021282227(03[4-9]|0[4-9][0-9]|1[0-1][0-9])\b)+@([student.unsri.ac.id]+)|(09021382227(120|1[3-6][0-9]|17[0-9])\b)+@([student.unsri.ac.id]+)|(09021182126(00[1-9]|0[1-2][0-9]|03[0-3])\b)+@([student.unsri.ac.id]+)|(09021282126(03[4-9]|0[4-9][0-9]|1[0-1][0-9])\b)+@([student.unsri.ac.id]+)|(09021382126(12[0-9]|1[3-6][0-9]|17[0-5])\b)+@([student.unsri.ac.id]+)/,
+                /^(09021182429(00[1-9]|0[1-2][0-9]|03[0-7])\b)+@(student.unsri.ac.id)|(09021282429(03[8-9]|0[4-9][0-9]|1[0-1][0-9]|12[0-6])\b)+@(student.unsri.ac.id)|(09021382126(12[7-9]|1[3-6][0-9]|17[0-1])\b)+@(student.unsri.ac.id)|(09021182328(00[1-9]|0[1-2][0-9]|03[0-2])\b)+@(student.unsri.ac.id)|(09021282328(03[3-9]|0[4-9][0-9]|1[0-1][0-9]|12[0-5])\b)+@(student.unsri.ac.id)|(09021382126(12[6-9]|1[3-6][0-9]|17[0-1])\b)+@(student.unsri.ac.id)|(09021182227(00[1-9]|0[1-2][0-9]|03[0-3])\b)+@(student.unsri.ac.id)|(09021282227(03[4-9]|0[4-9][0-9]|1[0-1][0-9])\b)+@(student.unsri.ac.id)|(09021382227(120|1[3-6][0-9]|17[0-9])\b)+@(student.unsri.ac.id)|(09021182126(00[1-9]|0[1-2][0-9]|03[0-3])\b)+@(student.unsri.ac.id)|(09021282126(03[4-9]|0[4-9][0-9]|1[0-1][0-9])\b)+@(student.unsri.ac.id)|(09021382126(12[0-9]|1[3-6][0-9]|17[0-5])\b)+@(student.unsri.ac.id)/,
                 {
                     message: "Email harus merupakan email UNSRI",
                 }
@@ -51,22 +52,24 @@ export default function Register() {
     });
 
     function onSubmit(values: z.infer<typeof formSchema>) {
+        const nim = values.email.split("@")[0];
         const fixedValues = {
             ...values,
-            nim: values.email.split("@")[0],
-            fakultas: "Ilmu Komputer",
-            jurusan: "Teknik Informatika",
-            no_telp: "086171215412",
+            nim: nim,
+            fakultas: fakultasValidate(nim),
+            jurusan: jurusanValidate(nim, fakultasValidate(nim)),
+            no_telp: "",
         };
         console.log(fixedValues);
-        // router.post(route("register"), fixedValues, {
-        //     onError: (errors) => {
-        //         console.error("Error dari server:", errors);
-        //     },
-        //     onSuccess: () => {
-        //         console.log("Data berhasil dikirim!");
-        //     },
-        // });
+
+        router.post(route("register"), fixedValues, {
+            onError: (errors) => {
+                console.error("Error dari server:", errors);
+            },
+            onSuccess: () => {
+                console.log("Data berhasil dikirim!");
+            },
+        });
     }
 
     return (
