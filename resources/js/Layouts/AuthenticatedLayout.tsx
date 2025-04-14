@@ -9,9 +9,26 @@ export default function AuthenticatedLayout({ header, children }: any) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
         useState(false);
 
+    const [scrolled, setScrolled] = useState(false);
+
+    function handleScrolled() {
+        if (window.scrollY > 0) {
+            setScrolled(true);
+        } else {
+            setScrolled(false);
+        }
+    }
+
+    window.addEventListener("scroll", handleScrolled);
+
     return (
         <div className="mx-12 font-inter font-medium">
-            <nav className="flex justify-between my-6">
+            <nav
+                className={`${
+                    scrolled ? "shadow-lg" : "shadow-none"
+                } flex justify-between py-6 px-12 fixed left-0 right-0 bg-white
+                  }`}
+            >
                 <div className="flex shrink-0 items-center text-2xl">
                     <Link href="/">
                         <h1>LaporMin</h1>

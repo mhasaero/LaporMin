@@ -6,7 +6,7 @@ type Props = {
     name?: any;
 };
 
-export default function StuffItem({ name }: Props) {
+export default function StatusItem({ name }: Props) {
     return (
         <div className="flex justify-between items-center">
             <div className="flex gap-4 items-center">
