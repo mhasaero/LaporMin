@@ -51,10 +51,11 @@ class User extends Authenticatable
         ];
     }
 
-    public function peminjamans()
+    public function peminjaman()
     {
-        return $this->hasMany(Peminjaman::class, 'barang_id');
+        return $this->hasMany(Peminjaman::class, 'nim', 'nim');
     }
+
 
    public function getUserPermissions()
     {

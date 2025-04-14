@@ -29,10 +29,9 @@ class Barang extends Model
         'lokasi',
     ];
 
-    public function peminjamans()
+    public function peminjaman()
     {
         return $this->hasMany(Peminjaman::class, 'barang_id');
     }
-
 
 }

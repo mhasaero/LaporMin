@@ -4,83 +4,88 @@ namespace App\Http\Controllers;
 
 use App\Models\Peminjaman;
 use App\Models\Barang;
+use App\Models\StatusBarang;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
 
 class PeminjamanController extends Controller
 {
     public function index()
     {
-        $peminjamans = Peminjaman::with(['barang', 'user'])->get();
-        return view('peminjaman.index', compact('peminjamans'));
+        $peminjaman = Peminjaman::with(['user', 'barang'])->latest()->get();
+
+        return Inertia::render('Peminjaman/Index', [
+            'peminjaman' => $peminjaman,
+        ]);
     }
 
     public function create()
     {
-        $barangs = Barang::where('stok', '>', 0)->get();
-        return view('peminjaman.create', compact('barangs'));
+        $barang = Barang::where('stok', '>', 0)->get();
+        
+        return Inertia::render('Peminjaman/Create', [
+            'barang' => $barang
+        ]);
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'barang_id' => 'required|exists:barangs,id',
-            'alasan' => 'nullable|string',
+            'barang_id' => 'required|exists:barang,id',
+            'alasan' => 'required|string|max:255',
         ]);
 
         Peminjaman::create([
-            'user_nim' => Auth::user()->nim,
+            'nim' => Auth::user()->nim,
             'barang_id' => $request->barang_id,
             'tanggal_peminjaman' => now(),
             'alasan' => $request->alasan,
-            'status' => 'Belum Diproses', // default status
+            'status' => 'Belum Diproses',
         ]);
 
-        // Kurangi stok barang
-        $barang = Barang::find($request->barang_id);
-        $barang->stok -= 1;
-        $barang->save();
-
-        return redirect()->route('peminjaman.index')->with('success', 'Peminjaman berhasil diajukan.');
+        return redirect()->back()->with('success', 'Pengajuan berhasil dikirim.');
     }
 
-    public function setujui($id)
+    public function approve(Peminjaman $peminjaman)
     {
-        $peminjaman = Peminjaman::findOrFail($id);
-        $peminjaman->status = 'Sedang Dipinjam';
-        $peminjaman->tanggal_peminjaman = now();
-        $peminjaman->save();
+        $peminjaman->update([
+            'status' => 'Sedang Dipinjam',
+            'tanggal_disetujui' => now(),
+        ]);
 
-        // Kurangi stok barang
-        $barang = $peminjaman->barang;
-        $barang->stok -= 1;
-        $barang->save();
-
-        return back()->with('success', 'Peminjaman disetujui.');
+        $status = StatusBarang::where('barang_id', $peminjaman->barang_id)->first();
+        if ($status) {
+            $status->decrement('status_tersedia');
+            $status->increment('status_dipinjam');
+        }
+        
+        return redirect()->back()->with('success', 'Peminjaman disetujui.');
     }
 
-    public function tolak($id)
+    public function reject(Peminjaman $peminjaman)
     {
-        $peminjaman = Peminjaman::findOrFail($id);
-        $peminjaman->status = 'Pengajuan Ditolak';
-        $peminjaman->save();
+        $peminjaman->update([
+            'status' => 'Pengajuan Ditolak',
+        ]);
 
-        return back()->with('info', 'Pengajuan ditolak.');
+        return redirect()->back()->with('info', 'Peminjaman ditolak.');
     }
 
-    public function kembalikan($id)
+    public function return(Peminjaman $peminjaman)
     {
-        $peminjaman = Peminjaman::findOrFail($id);
-        $peminjaman->status = 'Sudah Dikembalikan';
-        $peminjaman->tanggal_pengembalian = now();
-        $peminjaman->save();
+        $peminjaman->update([
+            'status' => 'Sudah Dikembalikan',
+            'tanggal_pengembalian' => now(),
+        ]);
 
-        // Tambah stok barang
-        $barang = $peminjaman->barang;
-        $barang->stok += 1;
-        $barang->save();
+        $status = StatusBarang::where('barang_id', $peminjaman->barang_id)->first();
+        if ($status) {
+            $status->increment('status_tersedia');
+            $status->decrement('status_dipinjam');
+        }
 
-        return back()->with('success', 'Barang berhasil dikembalikan.');
+        return redirect()->back()->with('success', 'Barang berhasil dikembalikan.');
     }
 
 }
