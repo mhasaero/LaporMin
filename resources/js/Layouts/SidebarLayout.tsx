@@ -28,9 +28,26 @@ export default function SidebarLayout({ children, title }: SidebarLayoutProps) {
                     <hr className="border-white border-opacity-30 mx-12 mb-16"></hr>
 
                     <nav className="space-y-4 text-lg px-12">
-                        <Link href={route("profile.edit")} className="block font-semibold">Profile</Link>
-                        <Link href="#" className="block">Ubah Password</Link>
-                        <Link href="#" className="block">Pinjaman Saya</Link>
+                        <Link
+                            href={route("profile.edit")}
+                            className={`block ${route().current("profile.edit") ? "font-semibold" : "font-normal"}`}
+                        >
+                            Profile
+                        </Link>
+
+                        <Link
+                            href={route("profile.ubahpassword")}
+                            className={`block ${route().current("profile.ubahpassword") ? "font-semibold" : "font-normal"}`}
+                        >
+                            Ubah Password
+                        </Link>
+
+                        <Link
+                            href="#"
+                            className="block font-normal"
+                        >
+                            Pinjaman Saya
+                        </Link>
                     </nav>
                 </div>
 
@@ -42,7 +59,7 @@ export default function SidebarLayout({ children, title }: SidebarLayoutProps) {
             </aside>
 
             <main className="ml-72 flex-1 px-12 py-6 bg-white h-full">
-                {title && <h2 className="text-2xl font-bold">{title}</h2>}
+                {title && <h2 className="text-2xl font-semibold">{title}</h2>}
                 {children}
             </main>
         </div>

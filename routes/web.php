@@ -40,4 +40,5 @@ Route::get('/dashboard', function () {
 // });
 
 Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+Route::get('/ubahpassword', [ProfileController::class, 'ubahpassword'])->name('profile.ubahpassword');
 require __DIR__.'/auth.php';

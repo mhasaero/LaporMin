@@ -25,6 +25,15 @@ class ProfileController extends Controller
     }
 
     /**
+     * miranti ngetes biar tampil 
+     */
+    public function ubahpassword(Request $request): Response
+    {
+        return Inertia::render('Profile/Partials/UpdatePasswordForm', [
+        ]);
+    }
+
+    /**
      * Update the user's profile information.
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
