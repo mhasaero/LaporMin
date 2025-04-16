@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Barang;
+use App\Models\StatusBarang;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 
@@ -12,10 +13,12 @@ class BarangController extends Controller
     {
         // Ambil semua data dari table barang
         $barang = Barang::all();
+        $statusBarang = StatusBarang::all();
 
         // Kirim data ke Inertia + React
         return Inertia::render('Barang/Index', [
-            'barang' => $barang
+            'barang' => $barang,
+            'statusBarang' => $statusBarang,
         ]);
     }
 
@@ -31,11 +34,17 @@ class BarangController extends Controller
             'kategori'    => 'required|string|max:100',
             'deskripsi'   => 'nullable|string',
             'stok'        => 'required|integer|min:0',
-            'status'      => 'required|in:Tersedia,Sedang Dipinjam,Rusak',
             'lokasi'      => 'required|string|max:100',
         ]);
 
-        Barang::create($validated);
+        $insertBarang = Barang::create($validated);
+
+        StatusBarang::create([
+            'barang_id' => $insertBarang->id,
+            'status_tersedia'    => $request->status_tersedia,
+            'status_sedang_dipinjam'    => $request->status_sedang_dipinjam,
+            'status_rusak'    => $request->status_rusak,
+        ]);
 
         return redirect()->route('barang.index')->with('success', 'Barang berhasil ditambahkan!');
     }
@@ -58,6 +67,9 @@ class BarangController extends Controller
 
     public function destroy(Barang $barang)
     {
+
+        StatusBarang::where('barang_id', $barang->id)->delete();
+
         $barang->delete();
 
         return redirect()->route('barang.index')->with('success', 'Barang berhasil dihapus!');
