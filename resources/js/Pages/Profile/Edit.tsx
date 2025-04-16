@@ -25,7 +25,7 @@ const formSchema = z.object({
         .regex(/^[0-9]+$/, { message: "Nomor telepon hanya boleh angka" }),
 });
 
-export default function Edit() {
+export default function Edit({user}:any) {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -52,22 +52,22 @@ export default function Edit() {
                 <div className="w-40 h-40 bg-gray-300 rounded-full mb-6" />
 
                 <Input
-                    placeholder='Nama Lengkap'
+                    placeholder={user.name}
                     disabled
                     className="w-full px-4 py-3 rounded-xl bg-gray-100"
                 />
                 <Input
-                    placeholder='NIM'
+                    placeholder={user.nim}
                     disabled
                     className="w-full px-4 py-3 rounded-xl bg-gray-100"
                 />
                 <Input
-                    placeholder='Email'
+                    placeholder={user.email}
                     disabled                        
                     className="w-full px-4 py-3 rounded-xl bg-gray-100"
                 />
                 <Input
-                    placeholder='Jurusan/Fakultas'
+                    placeholder={`${user.jurusan}/${user.fakultas}`}
                     disabled
                     className="w-full px-4 py-3 rounded-xl bg-gray-100"
                 />
