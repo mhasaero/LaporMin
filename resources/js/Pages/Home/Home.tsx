@@ -1,4 +1,5 @@
 import HeroSection from "@/Components/Home/HeroSection";
+import InventarisSection from "@/Components/Home/InventarisSection";
 import { Button } from "@/Components/ui/button";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head } from "@inertiajs/react";
@@ -10,9 +11,9 @@ type Props = {
 export default function Home({ statusBarang }: Props) {
     return (
         <AuthenticatedLayout>
-            <div className="flex flex-col gap-40">
+            <div className="flex flex-col gap-20">
                 <HeroSection statusBarang={statusBarang} />
-                <h1>Investaris</h1>
+                <InventarisSection />
             </div>
         </AuthenticatedLayout>
     );
