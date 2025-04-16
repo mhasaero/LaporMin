@@ -1,5 +1,5 @@
-import SidebarLayout from '@/Layouts/SidebarLayout';
-import { Head, Link, router } from '@inertiajs/react';
+import SidebarLayout from "@/Layouts/SidebarLayout";
+import { Head, Link, router } from "@inertiajs/react";
 import { usePage } from "@inertiajs/react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
@@ -25,13 +25,15 @@ const formSchema = z.object({
         .regex(/^[0-9]+$/, { message: "Nomor telepon hanya boleh angka" }),
 });
 
-export default function Edit() {
+export default function Edit({ user }: any) {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            phone: ""
+            phone: "",
         },
     });
+
+    console.log(user);
 
     function onSubmit(values: z.infer<typeof formSchema>) {
         router.post(route("profile.edit"), values, {
@@ -47,27 +49,27 @@ export default function Edit() {
 
     return (
         <SidebarLayout title="Profile">
-            <Head title="Profile" />  
+            <Head title="Profile" />
             <div className="flex flex-col items-center space-y-4 max-w-3xl mx-auto">
                 <div className="w-40 h-40 bg-gray-300 rounded-full mb-6" />
 
                 <Input
-                    placeholder='Nama Lengkap'
+                    placeholder="Nama Lengkap"
                     disabled
                     className="w-full px-4 py-3 rounded-xl bg-gray-100"
                 />
                 <Input
-                    placeholder='NIM'
+                    placeholder="NIM"
                     disabled
                     className="w-full px-4 py-3 rounded-xl bg-gray-100"
                 />
                 <Input
-                    placeholder='Email'
-                    disabled                        
+                    placeholder="Email"
+                    disabled
                     className="w-full px-4 py-3 rounded-xl bg-gray-100"
                 />
                 <Input
-                    placeholder='Jurusan/Fakultas'
+                    placeholder="Jurusan/Fakultas"
                     disabled
                     className="w-full px-4 py-3 rounded-xl bg-gray-100"
                 />
@@ -97,12 +99,11 @@ export default function Edit() {
                             type="submit"
                             className="w-full py-3 rounded-lg bg-[#23318C] text-white hover:bg-[#384ac1]"
                         >
-                                Simpan Perubahan
-                            </Button>
-                        </form>
-                    </Form>
-                </div>              
+                            Simpan Perubahan
+                        </Button>
+                    </form>
+                </Form>
+            </div>
         </SidebarLayout>
     );
 }
-

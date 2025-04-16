@@ -14,7 +14,7 @@ class StatusBarang extends Model
     protected $fillable = [
         'barang_id',
         'status_tersedia',
-        'status_dipinjam',
+        'status_sedang_dipinjam',
         'status_rusak',
     ];
 
