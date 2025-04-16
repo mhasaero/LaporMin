@@ -6,12 +6,15 @@ export default function CreateBarangPage() {
         kategori: "",
         deskripsi: "",
         stok: "",
-        status: "",
+        status_tersedia: "",
+        status_sedang_dipinjam: "",
+        status_rusak: "",
         lokasi: "",
     });
 
     const handleSubmit = (e: any) => {
         e.preventDefault();
+        console.log(data);
         post(route("barang.store")); // route dari Laravel
     };
 
@@ -80,20 +83,52 @@ export default function CreateBarangPage() {
                 </div>
 
                 <div>
-                    <label>Status:</label>
-                    <select
-                        value={data.status}
-                        onChange={(e) => setData("status", e.target.value)}
+                    <label>Status Tersedia:</label>
+                    <input
+                        type="number"
+                        value={data.status_tersedia}
+                        onChange={(e) =>
+                            setData("status_tersedia", e.target.value)
+                        }
                         className="w-full p-2 border rounded"
-                    >
-                        <option value="">Pilih Status</option>
-                        <option value="Tersedia">Tersedia</option>
-                        <option value="Sedang Dipinjam">Sedang Dipinjam</option>
-                        <option value="Rusak">Rusak</option>
-                    </select>
-                    {errors.status && (
+                    />
+                    {errors.status_tersedia && (
                         <div className="text-red-500 text-sm">
-                            {errors.status}
+                            {errors.status_tersedia}
+                        </div>
+                    )}
+                </div>
+
+                <div>
+                    <label>Status Sedang Dipinjam</label>
+                    <input
+                        type="number"
+                        value={data.status_sedang_dipinjam}
+                        onChange={(e) =>
+                            setData("status_sedang_dipinjam", e.target.value)
+                        }
+                        className="w-full p-2 border rounded"
+                    />
+                    {errors.status_sedang_dipinjam && (
+                        <div className="text-red-500 text-sm">
+                            {errors.status_sedang_dipinjam}
+                        </div>
+                    )}
+                </div>
+
+                <div>
+                    <label>Status Rusak</label>
+                    <input
+                        type="number"
+                        value={data.status_rusak}
+                        onChange={(e) =>
+                            setData("status_rusak", e.target.value)
+                        }
+                        className="w-full p-2 border rounded"
+                    />
+                    {errors.status_rusak && (
+                        <div className="text-red-500 text-sm">
+                            {errors.status_rusak}
                         </div>
                     )}
                 </div>
