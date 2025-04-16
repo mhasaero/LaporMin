@@ -22,4 +22,8 @@ class StatusBarang extends Model
     {
         return $this->belongsTo(Barang::class);
     }
+    public function status_barang()
+    {
+        return $this->belongsTo(Barang::class, 'barang_id', 'id');
+    }
 }

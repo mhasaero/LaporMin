@@ -16,9 +16,25 @@ import { Copy } from "lucide-react";
 
 type Props = {
     name?: any;
+    deskripsi?: any;
+    kategori?: any;
+    lokasi?: any;
+    stock?: any;
+    statusTersedia?: any;
+    statusRusak?: any;
+    statusSedangDipinjam?: any;
 };
 
-export default function DialogInfoButton({ name }: Props) {
+export default function DialogInfoButton({
+    name,
+    deskripsi,
+    kategori,
+    lokasi,
+    stock,
+    statusRusak,
+    statusTersedia,
+    statusSedangDipinjam,
+}: Props) {
     return (
         <Dialog>
             <DialogTrigger asChild>
@@ -32,11 +48,22 @@ export default function DialogInfoButton({ name }: Props) {
             <DialogContent className="sm:max-w-md">
                 <DialogHeader>
                     <DialogTitle>Informasi Detail {name}</DialogTitle>
-                    <DialogDescription>
-                        Ini merupakan informasi detail terkait {name}
-                    </DialogDescription>
+                    {/* <DialogDescription>{deskripsi}</DialogDescription> */}
                 </DialogHeader>
-                <DialogFooter className="sm:justify-start">
+                <div className="flex flex-col text-sm">
+                    <p>Nama Barang: {name}</p>
+                    <p>Deskripsi: {deskripsi}</p>
+                    <p>Kategori: {kategori}</p>
+                    <div className="py-4">
+                        <h3 className="font-semibold">Rincian Stok Barang</h3>
+                        <p>Stok: {stock}</p>
+                        <p>Tersedia: {statusTersedia}</p>
+                        <p>Rusak: {statusRusak}</p>
+                        <p>Sedang Dipinjam: {statusSedangDipinjam}</p>
+                    </div>
+                    <p className="font-semibold">Lokasi: {lokasi}</p>
+                </div>
+                <DialogFooter className="sm:justify-end">
                     <DialogClose asChild>
                         <Button
                             type="button"
