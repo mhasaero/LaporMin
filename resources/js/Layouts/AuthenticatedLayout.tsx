@@ -22,7 +22,7 @@ export default function AuthenticatedLayout({ header, children }: any) {
     window.addEventListener("scroll", handleScrolled);
 
     return (
-        <div className="mx-12 font-inter font-medium">
+        <div className="mx-20 font-inter font-medium">
             <nav
                 className={`${
                     scrolled ? "shadow-lg" : "shadow-none"

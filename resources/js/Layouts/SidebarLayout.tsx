@@ -13,14 +13,16 @@ export default function SidebarLayout({ children, title }: SidebarLayoutProps) {
                     <Link
                         href="/"
                         className="text-2xl font-semibold mb-12 px-12 block"
-                        >
+                    >
                         LaporMin
                     </Link>
 
                     <div className="flex items-center px-12 mb-4">
                         <div className="w-12 h-12 rounded-full bg-white border mr-6" />
                         <div>
-                            <p className="font-semibold text-base leading-tight mb-1">Nama User</p>
+                            <p className="font-semibold text-base leading-tight mb-1">
+                                Nama User
+                            </p>
                             <p className="text-sm leading-tight">Nama User</p>
                         </div>
                     </div>
@@ -30,29 +32,39 @@ export default function SidebarLayout({ children, title }: SidebarLayoutProps) {
                     <nav className="space-y-4 text-lg px-12">
                         <Link
                             href={route("profile.edit")}
-                            className={`block ${route().current("profile.edit") ? "font-semibold" : "font-normal"}`}
+                            className={`block ${
+                                route().current("profile.edit")
+                                    ? "font-semibold"
+                                    : "font-normal"
+                            }`}
                         >
                             Profile
                         </Link>
 
                         <Link
                             href={route("profile.ubahpassword")}
-                            className={`block ${route().current("profile.ubahpassword") ? "font-semibold" : "font-normal"}`}
+                            className={`block ${
+                                route().current("profile.ubahpassword")
+                                    ? "font-semibold"
+                                    : "font-normal"
+                            }`}
                         >
                             Ubah Password
                         </Link>
 
-                        <Link
-                            href="#"
-                            className="block font-normal"
-                        >
+                        <Link href="#" className="block font-normal">
                             Pinjaman Saya
                         </Link>
                     </nav>
                 </div>
 
                 <div className="px-12">
-                    <Link href={route("logout")} method="post" as="button" className="text-lg font-semibold hover:underline">
+                    <Link
+                        href={route("logout")}
+                        method="post"
+                        as="button"
+                        className="text-lg font-semibold hover:underline"
+                    >
                         Log out
                     </Link>
                 </div>
