@@ -54,11 +54,11 @@ export default function UpdatePasswordForm({ className = '' }) {
     return (
         <SidebarLayout title="Ubah Password">
             <Head title="Ubah Password"/>  
-            <div className="flex flex-col items-center space-y-4 max-w-3xl mx-auto mt-14">
+            <div className="flex flex-col items-center max-w-3xl mx-auto mt-14">
                 <Form {...form}>
                     <form
                         onSubmit={form.handleSubmit(onSubmit)}
-                        className="w-full space-y-5"
+                        className="w-full space-y-6"
                     >
                         <FormField
                             control={form.control}
@@ -68,8 +68,9 @@ export default function UpdatePasswordForm({ className = '' }) {
                                     <FormControl>
                                         <Input
                                             placeholder="Password lama"
-                                            className="w-full px-4 py-3 rounded-lg"
+                                            className="w-full px-4 py-4 text-base rounded-xl"
                                             {...field}
+                                            type="password"
                                         />
                                     </FormControl>
                                     <FormMessage />
@@ -84,8 +85,9 @@ export default function UpdatePasswordForm({ className = '' }) {
                                     <FormControl>
                                         <Input
                                             placeholder="Password baru"
-                                            className="w-full px-4 py-3 rounded-lg"
+                                            className="w-full px-4 py-4 text-base rounded-xl"
                                             {...field}
+                                            type="password"
                                         />
                                     </FormControl>
                                     <FormMessage />
@@ -100,8 +102,9 @@ export default function UpdatePasswordForm({ className = '' }) {
                                     <FormControl>
                                         <Input
                                             placeholder="Konfirmasi password baru"
-                                            className="w-full px-4 py-3 rounded-lg"
+                                            className="w-full px-4 py-4 text-base rounded-xl"
                                             {...field}
+                                            type="password"
                                         />
                                     </FormControl>
                                     <FormMessage />
@@ -110,7 +113,7 @@ export default function UpdatePasswordForm({ className = '' }) {
                         />
                         <Button
                             type="submit"
-                            className="w-full py-3 rounded-lg bg-[#23318C] text-white hover:bg-[#384ac1]"
+                            className="w-full py-3 rounded-lg bg-[#23318C] text-white hover:bg-[#384ac1] text-base"
                         >
                                 Ubah Password
                         </Button>
