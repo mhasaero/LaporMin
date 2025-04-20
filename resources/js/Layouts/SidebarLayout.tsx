@@ -16,7 +16,7 @@ export default function SidebarLayout({ children, title }: SidebarLayoutProps) {
                     <Link
                         href="/"
                         className="text-2xl font-semibold mb-12 px-12 block"
-                        >
+                    >
                         LaporMin
                     </Link>
 
@@ -37,14 +37,22 @@ export default function SidebarLayout({ children, title }: SidebarLayoutProps) {
                     <nav className="space-y-4 text-xl px-12">
                         <Link
                             href={route("profile.edit")}
-                            className={`block ${route().current("profile.edit") ? "font-semibold" : "font-normal"}`}
+                            className={`block ${
+                                route().current("profile.edit")
+                                    ? "font-semibold"
+                                    : "font-normal"
+                            }`}
                         >
                             Profile
                         </Link>
 
                         <Link
                             href={route("profile.ubahpassword")}
-                            className={`block ${route().current("profile.ubahpassword") ? "font-semibold" : "font-normal"}`}
+                            className={`block ${
+                                route().current("profile.ubahpassword")
+                                    ? "font-semibold"
+                                    : "font-normal"
+                            }`}
                         >
                             Ubah Password
                         </Link>
