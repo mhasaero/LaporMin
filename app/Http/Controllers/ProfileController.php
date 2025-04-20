@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Inertia\Response;
+use App\Models\Barang;
 
 class ProfileController extends Controller
 {
@@ -22,7 +23,6 @@ class ProfileController extends Controller
             'user' => $request->user(), 
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => session('status'),
-            'user' => $request->user()
         ]);
     }
 
@@ -35,21 +35,48 @@ class ProfileController extends Controller
         ]);
     }
 
+    public function pinjamanSaya(Request $request): Response
+    {
+        $barang = Barang::all(); // Ambil satu data dulu sebagai contoh
+    
+        return Inertia::render('Profile/RiwayatPinjaman', [
+            'barang' => $barang
+        ]);
+    }
+    
+
     /**
      * Update the user's profile information.
      */
-    public function update(ProfileUpdateRequest $request): RedirectResponse
+    // public function update(ProfileUpdateRequest $request): RedirectResponse
+    // {
+    //     $request->user()->fill($request->validated());
+
+    //     if ($request->user()->isDirty('email')) {
+    //         $request->user()->email_verified_at = null;
+    //     }
+
+    //     $request->user()->save();
+
+    //     return Redirect::route('profile.edit');
+    // }
+
+    public function update(Request $request)
     {
-        $request->user()->fill($request->validated());
+        $request->validate([
+            'no_telp' => ['required', 'numeric', 'min:10'],
+        ]);
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
-        }
+        $request->user()->update([
+            'no_telp' => $request->input('no_telp'),
+        ]);
 
-        $request->user()->save();
-
-        return Redirect::route('profile.edit');
+        return Inertia::render('Profile/Edit', [
+            'status' => 'No telp berhasil diedit!', 
+            'user' => $request->user(),
+        ]);
     }
+      
 
     /**
      * Delete the user's account.

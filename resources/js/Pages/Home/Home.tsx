@@ -1,3 +1,4 @@
+import Footer from "@/Components/Home/Footer";
 import HeroSection from "@/Components/Home/HeroSection";
 import InventarisSection from "@/Components/Home/InventarisSection";
 import PengaduanForm from "@/Components/Home/PengaduanForm";
@@ -16,6 +17,7 @@ export default function Home({ statusBarang }: Props) {
                 <HeroSection statusBarang={statusBarang} />
                 <InventarisSection />
                 <PengaduanForm />
+                <Footer />
             </div>
         </AuthenticatedLayout>
     );

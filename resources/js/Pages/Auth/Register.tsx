@@ -37,7 +37,7 @@ const formSchema = z
     })
     .refine((data) => data.password === data.password_confirmation, {
         message: "Password dan konfirmasi harus sama.",
-        path: ["confirm_password"],
+        path: ["password_confirmation"],
     });
 
 export default function Register() {
