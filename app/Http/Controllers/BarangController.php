@@ -56,11 +56,16 @@ class BarangController extends Controller
             'kategori'    => 'required|string|max:100',
             'deskripsi'   => 'nullable|string',
             'stok'        => 'required|integer|min:0',
-            'status'      => 'required|in:Tersedia,Sedang Dipinjam,Rusak',
             'lokasi'      => 'required|string|max:100',
         ]);
 
         $barang->update($validated);
+
+        StatusBarang::where('barang_id', $barang->id)->update([
+            'status_tersedia'    => $request->status_tersedia,
+            'status_sedang_dipinjam'    => $request->status_sedang_dipinjam,
+            'status_rusak'    => $request->status_rusak,
+        ]);
 
         return redirect()->route('barang.index')->with('success', 'Barang berhasil diupdate!');
     }

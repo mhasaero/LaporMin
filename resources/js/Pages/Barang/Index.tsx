@@ -11,14 +11,16 @@ export default function BarangIndex({ barang, statusBarang }: any) {
         kategori: "",
         deskripsi: "",
         stok: "",
-        status: "",
+        status_tersedia: "",
+        status_sedang_dipinjam: "",
+        status_rusak: "",
         lokasi: "",
     });
 
     console.log(statusBarang);
 
-    const openEditModal = (item: any) => {
-        setForm(item);
+    const openEditModal = (barang: any, status: any) => {
+        setForm({ ...barang, ...status });
         setEditModal(true);
     };
 
@@ -30,7 +32,9 @@ export default function BarangIndex({ barang, statusBarang }: any) {
             kategori: "",
             deskripsi: "",
             stok: "",
-            status: "",
+            status_tersedia: "",
+            status_sedang_dipinjam: "",
+            status_rusak: "",
             lokasi: "",
         });
     };
@@ -112,7 +116,16 @@ export default function BarangIndex({ barang, statusBarang }: any) {
                                 <td className="border p-2">{item.lokasi}</td>
                                 <td className="border p-2 space-x-2">
                                     <button
-                                        onClick={() => openEditModal(item)}
+                                        onClick={() =>
+                                            openEditModal(
+                                                item,
+                                                statusBarang.find(
+                                                    (status: any) =>
+                                                        status.barang_id ==
+                                                        item.id
+                                                )
+                                            )
+                                        }
                                         className="bg-yellow-500 text-white px-2 py-1 rounded"
                                     >
                                         Edit
@@ -180,19 +193,42 @@ export default function BarangIndex({ barang, statusBarang }: any) {
                                     setForm({ ...form, stok: e.target.value })
                                 }
                             />
-                            <select
+                            <input
+                                type="number"
+                                placeholder="Status_tersedia"
                                 className="w-full p-2 border rounded"
-                                value={form.status}
+                                value={form.status_tersedia}
                                 onChange={(e) =>
-                                    setForm({ ...form, status: e.target.value })
+                                    setForm({
+                                        ...form,
+                                        status_tersedia: e.target.value,
+                                    })
                                 }
-                            >
-                                <option value="Tersedia">Tersedia</option>
-                                <option value="Sedang Dipinjam">
-                                    Sedang Dipinjam
-                                </option>
-                                <option value="Rusak">Rusak</option>
-                            </select>
+                            />
+                            <input
+                                type="number"
+                                placeholder="Status_sedang_dipinjam"
+                                className="w-full p-2 border rounded"
+                                value={form.status_sedang_dipinjam}
+                                onChange={(e) =>
+                                    setForm({
+                                        ...form,
+                                        status_sedang_dipinjam: e.target.value,
+                                    })
+                                }
+                            />
+                            <input
+                                type="number"
+                                placeholder="Status_rusak"
+                                className="w-full p-2 border rounded"
+                                value={form.status_rusak}
+                                onChange={(e) =>
+                                    setForm({
+                                        ...form,
+                                        status_rusak: e.target.value,
+                                    })
+                                }
+                            />
                             <input
                                 type="text"
                                 placeholder="Lokasi"
