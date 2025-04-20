@@ -34,6 +34,7 @@ class PeminjamanController extends Controller
         $request->validate([
             'barang_id' => 'required|exists:barang,id',
             'alasan' => 'required|string|max:255',
+            'ruangan' => 'required|string|max:100',
         ]);
 
         Peminjaman::create([
@@ -41,6 +42,7 @@ class PeminjamanController extends Controller
             'barang_id' => $request->barang_id,
             'tanggal_peminjaman' => now(),
             'alasan' => $request->alasan,
+            'ruangan' => $request->ruangan,
             'status' => 'Belum Diproses',
         ]);
 
