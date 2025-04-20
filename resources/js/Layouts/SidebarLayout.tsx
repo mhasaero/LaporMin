@@ -1,4 +1,4 @@
-import { Link } from "@inertiajs/react";
+import { Link, usePage } from "@inertiajs/react";
 
 interface SidebarLayoutProps {
     children: React.ReactNode;
@@ -6,9 +6,12 @@ interface SidebarLayoutProps {
 }
 
 export default function SidebarLayout({ children, title }: SidebarLayoutProps) {
+    const { auth } = usePage().props as any;
+    const user = auth?.user;
+
     return (
         <div className="flex h-screen">
-            <aside className="w-72 bg-[#23318C] text-white flex flex-col justify-between py-6 fixed h-full">
+            <aside className="bg-[#23318C] text-white flex flex-col justify-between py-6 fixed h-full">
                 <div>
                     <Link
                         href="/"
@@ -17,17 +20,21 @@ export default function SidebarLayout({ children, title }: SidebarLayoutProps) {
                         LaporMin
                     </Link>
 
-                    <div className="flex items-center px-12 mb-4">
-                        <div className="w-12 h-12 rounded-full bg-white border mr-6" />
+                    {user && (
+                        <div className="flex items-center px-12 mb-4">
+                        <div className="w-12 h-12 rounded-full bg-white border mr-4" />
                         <div>
-                            <p className="font-semibold text-base leading-tight mb-1">Nama User</p>
-                            <p className="text-sm leading-tight">Nama User</p>
+                            <p className="font-semibold text-lg leading-tight mb-1">
+                            {user.name}
+                            </p>
+                            <p className="text-lg leading-tight">{user.nim}</p>
                         </div>
-                    </div>
+                        </div>
+                    )}
 
                     <hr className="border-white border-opacity-30 mx-12 mb-16"></hr>
 
-                    <nav className="space-y-4 text-lg px-12">
+                    <nav className="space-y-4 text-xl px-12">
                         <Link
                             href={route("profile.edit")}
                             className={`block ${route().current("profile.edit") ? "font-semibold" : "font-normal"}`}
@@ -43,8 +50,8 @@ export default function SidebarLayout({ children, title }: SidebarLayoutProps) {
                         </Link>
 
                         <Link
-                            href="#"
-                            className="block font-normal"
+                            href={route("profile.pinjamanSaya")}
+                            className={`block ${route().current("profile.pinjamanSaya") ? "font-semibold" : "font-normal"}`}
                         >
                             Pinjaman Saya
                         </Link>
@@ -52,14 +59,14 @@ export default function SidebarLayout({ children, title }: SidebarLayoutProps) {
                 </div>
 
                 <div className="px-12">
-                    <Link href={route("logout")} method="post" as="button" className="text-lg font-semibold hover:underline">
+                    <Link href={route("logout")} method="post" as="button" className="text-xl font-semibold hover:underline">
                         Log out
                     </Link>
                 </div>
             </aside>
 
-            <main className="ml-72 flex-1 px-12 py-6 bg-white h-full">
-                {title && <h2 className="text-2xl font-semibold">{title}</h2>}
+            <main className="ml-72 flex-1 px-12 py-6 bg-white ">
+                {title && <h2 className="text-2xl font-semibold ml-10">{title}</h2>}
                 {children}
             </main>
         </div>
