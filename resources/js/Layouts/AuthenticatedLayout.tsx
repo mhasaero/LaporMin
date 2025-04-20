@@ -1,4 +1,5 @@
 import { Link, usePage } from "@inertiajs/react";
+import { LogOut, PackageOpen, User } from "lucide-react";
 import { useState } from "react";
 
 export default function AuthenticatedLayout({ header, children }: any) {
@@ -26,7 +27,7 @@ export default function AuthenticatedLayout({ header, children }: any) {
             <nav
                 className={`${
                     scrolled ? "shadow-lg" : "shadow-none"
-                } flex justify-between py-6 px-12 fixed left-0 right-0 bg-white
+                } flex justify-between py-6 px-20 fixed left-0 right-0 bg-white
                   }`}
             >
                 <div className="flex shrink-0 items-center text-2xl">
@@ -36,41 +37,46 @@ export default function AuthenticatedLayout({ header, children }: any) {
                 </div>
                 <div className="flex text-xl">
                     <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                        <Link
-                            href={"/"}
-                            className={url === "/" ? "border-b-2" : ""}
-                        >
+                        <a href="#" className="text-black hover:text-gray-600">
                             Home
-                        </Link>
+                        </a>
                     </div>
                     <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                        <Link
-                            href={route("inventaris")}
-                            className={
-                                url === route("inventaris") ? "border-b-2" : ""
-                            }
+                        <a
+                            href="#inventaris"
+                            className="text-black hover:text-gray-600"
                         >
                             Inventaris
-                        </Link>
+                        </a>
                     </div>
                     <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                        <Link
-                            href={route("pengaduan")}
-                            className={
-                                url === route("pengaduan") ? "border-b-2" : ""
-                            }
+                        <a
+                            href="#pengaduan"
+                            className="text-black hover:text-gray-600"
                         >
                             Pengaduan
-                        </Link>
+                        </a>
                     </div>
                 </div>
-                <div className="flex text-xl gap-4">
-                    <div>icon box</div>
-                    <Link href={route("profile.edit")} method="get" as="button">
-                        Profile
+                <div className="flex text-xl gap-4 items-center">
+                    <Link href={route("box.index")}>
+                        <PackageOpen strokeWidth={1.5} />
                     </Link>
-                    <Link href={route("logout")} method="post" as="button">
-                        Logout
+                    <Link
+                        href={route("profile.edit")}
+                        method="get"
+                        as="button"
+                        className="cursor-pointer"
+                    >
+                        <User />
+                    </Link>
+                    <Link
+                        href={route("logout")}
+                        method="post"
+                        as="button"
+                        className="cursor-pointer"
+                    >
+                        <LogOut />
                     </Link>
                 </div>
             </nav>

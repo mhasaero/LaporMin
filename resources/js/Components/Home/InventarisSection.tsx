@@ -5,8 +5,8 @@ import { Button } from "../ui/button";
 
 export default function InventarisSection() {
     return (
-        <section>
-            <div className="flex flex-col w-full items-center gap-12">
+        <section id="inventaris">
+            <div className="flex flex-col w-full items-center gap-12 mt-30">
                 <h1 className="text-4xl font">Inventaris</h1>
                 <div className="flex w-full justify-between gap-10">
                     <p className="w-1/2 text-[#23318C]">

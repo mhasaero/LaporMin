@@ -65,8 +65,8 @@ export default function PengaduanForm() {
         console.log(values.images);
     }
     return (
-        <div className="w-full flex justify-center mt-10">
-            <div className="flex flex-col w-full bg-gray-100 py-8 px-20 rounded-2xl">
+        <div id="pengaduan" className="w-full flex justify-center">
+            <div className="flex flex-col w-full bg-gray-100 py-8 px-20 rounded-2xl my-36">
                 <h2 className="l text-center text-3xl font-semibold mb-6">
                     Form Pengaduan
                 </h2>
@@ -100,8 +100,9 @@ export default function PengaduanForm() {
                                     <FormItem className="w-2/3">
                                         <FormControl>
                                             <textarea
+                                                rows={8}
                                                 placeholder="Pesan.."
-                                                className="w-full rounded-xl px-6 py-4 h-60 border-2 text-md bg-white focus:outline-none"
+                                                className="w-full rounded-xl px-6 py-4 h-60 border-2 text-md bg-white focus:outline-none resize-none"
                                                 {...field}
                                             />
                                         </FormControl>
@@ -114,7 +115,7 @@ export default function PengaduanForm() {
                                 name="images"
                                 render={({ field }) => (
                                     <FormItem className="w-1/3">
-                                        <div className="w-full h-60 bg-white border-2 rounded-xl px-6 py-4">
+                                        <div className="w-full h-60 bg-white border-2 rounded-xl px-6 py-4 overflow-hidden text-ellipsis">
                                             <FormLabel className="text-md overflow-hidden text-ellipsis text-wrap  text-muted-foreground invalid:text-muted-foreground items-start">
                                                 {imageFiles.length > 0
                                                     ? imageFiles.join(", ")

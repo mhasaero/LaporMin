@@ -13,7 +13,7 @@ type Props = {
 export default function Home({ statusBarang }: Props) {
     return (
         <AuthenticatedLayout>
-            <div className="flex flex-col gap-20">
+            <div className="flex flex-col">
                 <HeroSection statusBarang={statusBarang} />
                 <InventarisSection />
                 <PengaduanForm />

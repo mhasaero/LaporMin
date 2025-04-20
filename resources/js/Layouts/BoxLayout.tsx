@@ -26,7 +26,7 @@ export default function BoxLayout({ header, children }: any) {
             <nav
                 className={`${
                     scrolled ? "shadow-lg" : "shadow-none"
-                } flex justify-between py-6 px-12 fixed left-0 right-0 bg-white
+                } flex justify-between py-6 px-20 fixed left-0 right-0 bg-white
                   }`}
             >
                 <div className="flex gap-4 shrink-0 text-2xl items-end">
