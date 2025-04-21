@@ -6,7 +6,7 @@ import { Button } from "@/Components/ui/button";
 export default function Confirm() {
     return (
         <BoxLayout>
-            <Head title="Box Peminjaman" />
+            <Head title="Konfirmasi Box Peminjaman" />
             <section className="flex flex-col">
                 <div className="flex flex-col w-full gap-16 h-screen mt-24 ">
                     <div className="shadow-lg border-1 border-black p-6 space-y-6 text-xl font-medium">

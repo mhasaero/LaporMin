@@ -12,16 +12,17 @@ class StatusBarang extends Model
     protected $table = 'status_barang';
 
     protected $fillable = [
-        'barang_id',
+        'barang_idk',
         'status_tersedia',
         'status_sedang_dipinjam',
-        'status_rusak',
+        'status_rusa',
     ];
 
     public function barang()
     {
         return $this->belongsTo(Barang::class);
     }
+
     public function status_barang()
     {
         return $this->belongsTo(Barang::class, 'barang_id', 'id');

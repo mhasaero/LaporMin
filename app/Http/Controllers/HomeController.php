@@ -11,6 +11,7 @@ class HomeController extends Controller
 {
     public function index()
     {
+        
         $statusBarang = StatusBarang::with(['status_barang', 'barang'])->latest()->get();
 
         return Inertia::render('Home/Home', [

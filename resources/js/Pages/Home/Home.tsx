@@ -15,7 +15,7 @@ export default function Home({ statusBarang }: Props) {
         <AuthenticatedLayout>
             <div className="flex flex-col">
                 <HeroSection statusBarang={statusBarang} />
-                <InventarisSection />
+                <InventarisSection barang={statusBarang} />
                 <PengaduanForm />
                 <Footer />
             </div>

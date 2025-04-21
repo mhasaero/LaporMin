@@ -3,7 +3,11 @@ import { Input } from "../ui/input";
 import InventarisCards from "./InventarisCards";
 import { Button } from "../ui/button";
 
-export default function InventarisSection() {
+type Props = {
+    barang?: string;
+};
+
+export default function InventarisSection({ barang }: Props) {
     return (
         <section id="inventaris">
             <div className="flex flex-col w-full items-center gap-12 mt-30">
@@ -19,7 +23,7 @@ export default function InventarisSection() {
                         className="w-1/2 h-full"
                     />
                 </div>
-                <InventarisCards />
+                <InventarisCards barang={barang} />
                 <Button className="py-1 px-10 rounded-xl border-[#23318C] border-2 bg-[#23318C] text-white hover:bg-[#384ac1] mb-10">
                     Lihat Lebih Banyak
                 </Button>
