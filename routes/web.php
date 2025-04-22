@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', [HomeController::class, 'index'])->name('home.index');
+Route::post('/', [BoxController::class, 'store'])->name('home.store');
 
 Route::get('/inventaris', function () {
     return Inertia::render('Dashboard/Inventaris');
@@ -29,7 +30,6 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/box', [BoxController::class, 'index'])->name('box.index');
-
 Route::get('/box-confirm', [BoxController::class, 'confirm'])->name('box.confirm');
 
 Route::middleware('auth')->group(function () {
