@@ -12,7 +12,7 @@ class StatusBarang extends Model
     protected $table = 'status_barang';
 
     protected $fillable = [
-        'barang_idk',
+        'barang_id',
         'status_tersedia',
         'status_sedang_dipinjam',
         'status_rusa',
