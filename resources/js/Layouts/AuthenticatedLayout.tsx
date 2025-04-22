@@ -27,7 +27,7 @@ export default function AuthenticatedLayout({ header, children }: any) {
             <nav
                 className={`${
                     scrolled ? "shadow-lg" : "shadow-none"
-                } flex justify-between py-6 px-20 fixed left-0 right-0 bg-white
+                } flex justify-between py-6 px-20 fixed left-0 right-0 bg-white z-10
                   }`}
             >
                 <div className="flex shrink-0 items-center text-2xl">

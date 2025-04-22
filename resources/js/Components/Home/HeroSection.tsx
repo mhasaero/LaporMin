@@ -9,8 +9,6 @@ type Props = {
 };
 
 export default function HeroSection({ statusBarang }: Props) {
-    console.log(statusBarang);
-
     return (
         <section className="flex flex-col w-full gap-6 h-[100vh] items-center justify-center mt-10">
             <HeroBanner />

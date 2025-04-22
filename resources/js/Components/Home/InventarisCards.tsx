@@ -14,6 +14,7 @@ export default function InventarisCards({ barang }: Props) {
                     Array.from(barang).map((item: any, index: number) => (
                         <InventarisCardItem
                             key={index}
+                            id={item.status_barang.id}
                             name={item.status_barang.nama_barang}
                             deskripsi={item.barang.deskripsi}
                             kategori={item.barang.kategori}
