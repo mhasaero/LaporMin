@@ -46,7 +46,7 @@ class BarangController extends Controller
             'status_rusak'    => $request->status_rusak,
         ]);
 
-        return redirect()->route('barang.index')->with('success', 'Barang berhasil ditambahkan!');
+        return redirect()->route('dashboard')->with('success', 'Barang berhasil ditambahkan!');
     }
 
     public function update(Request $request, Barang $barang)
@@ -67,7 +67,7 @@ class BarangController extends Controller
             'status_rusak'    => $request->status_rusak,
         ]);
 
-        return redirect()->route('barang.index')->with('success', 'Barang berhasil diupdate!');
+        return redirect()->route('dashboard')->with('success', 'Barang berhasil diupdate!');
     }
 
     public function destroy(Barang $barang)
@@ -77,6 +77,6 @@ class BarangController extends Controller
 
         $barang->delete();
 
-        return redirect()->route('barang.index')->with('success', 'Barang berhasil dihapus!');
+        return redirect()->route('dashboard')->with('success', 'Barang berhasil dihapus!');
     }
 }
