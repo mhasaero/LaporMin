@@ -13,7 +13,12 @@ class BoxController extends Controller
 {
     public function index()
     {
-        return Inertia::render('Box/Index', []);  
+        $nim = Auth::user()->nim;
+        $box = Box::where('nim', $nim)->with('barang')->get();
+
+        return Inertia::render('Box/Index', [
+            'box' => $box,
+        ]);  
     }
 
     public function confirm()
