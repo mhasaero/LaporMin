@@ -1,4 +1,5 @@
 import { Link, usePage } from "@inertiajs/react";
+import { LogOut, PackageOpen, User } from "lucide-react";
 import { useState } from "react";
 
 export default function BoxLayout({ header, children }: any) {
@@ -26,23 +27,38 @@ export default function BoxLayout({ header, children }: any) {
             <nav
                 className={`${
                     scrolled ? "shadow-lg" : "shadow-none"
-                } flex justify-between py-6 px-20 fixed left-0 right-0 bg-white
-                  }`}
+                } flex justify-between py-6 px-20 fixed left-0 right-0 bg-white z-10
+              }`}
             >
-                <div className="flex gap-4 shrink-0 text-2xl items-end">
+                <div className="flex shrink-0 items-center text-2xl">
                     <Link href="/">
                         <h1>LaporMin</h1>
                     </Link>
-                    <h1 className="text-xl border-s-2 border-black px-4">
-                        Box Peminjaman
-                    </h1>
                 </div>
-                <div className="flex text-xl gap-4">
-                    <Link href={route("profile.edit")} method="get" as="button">
-                        Profile
+
+                <div className="flex text-xl gap-4 items-center">
+                    <Link href={route("box.index")}>
+                        <PackageOpen strokeWidth={1.5} />
+                    </Link>
+                    <Link
+                        href={route("profile.edit")}
+                        method="get"
+                        as="button"
+                        className="cursor-pointer"
+                    >
+                        <User />
+                    </Link>
+                    <Link
+                        href={route("logout")}
+                        method="post"
+                        as="button"
+                        className="cursor-pointer"
+                    >
+                        <LogOut />
                     </Link>
                 </div>
             </nav>
+
             {header && (
                 <header className="bg-white shadow">
                     <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">

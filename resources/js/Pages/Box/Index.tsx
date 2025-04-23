@@ -3,6 +3,7 @@ import { Button } from "@/Components/ui/button";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import BoxCardItem from "@/Components/Box/BoxCardItem";
 import { Box } from "lucide-react";
+import BoxLayout from "@/Layouts/BoxLayout";
 
 type Props = {
     box?: string;
@@ -12,7 +13,7 @@ export default function Index({ box }: Props) {
     console.log(box);
 
     return (
-        <AuthenticatedLayout>
+        <BoxLayout>
             <Head title="Box Peminjaman" />
             <section className="flex flex-col ">
                 <div className="flex flex-col w-full gap-16 h-screen mt-24 ">
@@ -41,6 +42,6 @@ export default function Index({ box }: Props) {
                     </Button>
                 </div>
             </section>
-        </AuthenticatedLayout>
+        </BoxLayout>
     );
 }
