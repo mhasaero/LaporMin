@@ -1,23 +1,202 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head } from "@inertiajs/react";
+import { Head, router, useForm } from "@inertiajs/react";
+import { useState } from "react";
 
-export default function Dashboard() {
+interface DashboardProps {
+    barang: any[];
+    peminjaman: any[];
+    users: any[];
+    status: any[];
+}
+
+export default function Dashboard({ barang = [], peminjaman = [], users = [] }: DashboardProps) {
+    const [activeTab, setActiveTab] = useState("barang");
+    const [editing, setEditing] = useState(null);
+
+    const { data, setData, reset, post, put, delete: destroy } = useForm({
+        id: "",
+        nama_barang: "",
+        kategori: "",
+        deskripsi: "",
+        stok: "",
+        lokasi: "",
+        status_tersedia: "",
+        status_sedang_dipinjam: "",
+        status_rusak: ""
+    });
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (editing) {
+            put(`/barang/${data.id}`, {
+                onSuccess: () => {
+                    reset();
+                    setEditing(null);
+                },
+            });
+        } else {
+            post("/barang", {
+                onSuccess: () => reset(),
+            });
+        }
+    };
+
+    const handleEdit = (item: any) => {
+        setEditing(item);
+        setData({
+            id: item.id,
+            nama_barang: item.nama_barang,
+            kategori: item.kategori,
+            deskripsi: item.deskripsi,
+            stok: item.stok,
+            lokasi: item.lokasi,
+            status_tersedia: item.status?.status_tersedia || "",
+            status_sedang_dipinjam: item.status?.status_sedang_dipinjam || "",
+            status_rusak: item.status?.status_rusak || ""
+        });
+    };
+
+    const handleDelete = (id: number) => {
+        if (confirm("Yakin ingin menghapus barang ini?")) {
+            destroy(`/barang/${id}`);
+        }
+    };
+
     return (
-        <AuthenticatedLayout
-            header={
-                <h2 className="text-xl font-semibold leading-tight text-gray-800">
-                    Dashboard
-                </h2>
-            }
-        >
+        <AuthenticatedLayout header={<h2 className="text-xl font-semibold leading-tight text-gray-800">Dashboard</h2>}>
             <Head title="Dashboard" />
 
             <div className="py-12">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
-                    <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
-                        <div className="p-6 text-gray-900">
-                            You're logged in!
+                    <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg p-6 text-gray-900">
+
+                        {/* Statistik */}
+                        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
+                            <div className="bg-gray-100 p-4 rounded shadow">
+                                <h2 className="font-semibold">Total Barang</h2>
+                                <p className="text-xl">{barang.length}</p>
+                            </div>
+                            <div className="bg-gray-100 p-4 rounded shadow">
+                                <h2 className="font-semibold">Total Peminjaman</h2>
+                                <p className="text-xl">{peminjaman.length}</p>
+                            </div>
+                            <div className="bg-gray-100 p-4 rounded shadow">
+                                <h2 className="font-semibold">Total Pengguna</h2>
+                                <p className="text-xl">{users.length}</p>
+                            </div>
                         </div>
+
+                        {/* Tab Navigasi */}
+                        <div className="flex gap-4 mb-6">
+                            <button className={`px-4 py-2 rounded ${activeTab === "barang" ? "bg-blue-600 text-white" : "bg-gray-200"}`} onClick={() => setActiveTab("barang")}>
+                                Barang
+                            </button>
+                            <button className={`px-4 py-2 rounded ${activeTab === "peminjaman" ? "bg-blue-600 text-white" : "bg-gray-200"}`} onClick={() => setActiveTab("peminjaman")}>
+                                Peminjaman
+                            </button>
+                        </div>
+
+                        {/* CRUD Barang */}
+                        {activeTab === "barang" && (
+                            <div>
+                                <h3 className="text-lg font-semibold mb-4">Manajemen Barang</h3>
+
+                                <form onSubmit={handleSubmit} className="space-y-4 mb-6">
+                                    <div className="grid grid-cols-2 gap-4">
+                                        <input className="border p-2" type="text" placeholder="Nama Barang" value={data.nama_barang} onChange={(e) => setData("nama_barang", e.target.value)} required />
+                                        <input className="border p-2" type="text" placeholder="Kategori" value={data.kategori} onChange={(e) => setData("kategori", e.target.value)} required />
+                                        <input className="border p-2 col-span-2" type="text" placeholder="Deskripsi" value={data.deskripsi} onChange={(e) => setData("deskripsi", e.target.value)} />
+                                        <input className="border p-2" type="number" placeholder="Stok" value={data.stok} onChange={(e) => setData("stok", e.target.value)} required />
+                                        <input className="border p-2" type="text" placeholder="Lokasi" value={data.lokasi} onChange={(e) => setData("lokasi", e.target.value)} required />
+                                    </div>
+                                    <div className="grid grid-cols-3 gap-4">
+                                        <input className="border p-2" type="number" placeholder="Tersedia" value={data.status_tersedia} onChange={(e) => setData("status_tersedia", e.target.value)} required />
+                                        <input className="border p-2" type="number" placeholder="Tidak tersedia" value={data.status_sedang_dipinjam} onChange={(e) => setData("status_sedang_dipinjam", e.target.value)} required />
+                                        <input className="border p-2" type="number" placeholder="Rusak" value={data.status_rusak} onChange={(e) => setData("status_rusak", e.target.value)} required />
+                                    </div>
+                                    <button type="submit" className="px-4 py-2 bg-green-600 text-white rounded">
+                                        {editing ? "Update Barang" : "Tambah Barang"}
+                                    </button>
+                                </form>
+
+                                <div className="overflow-auto">
+                                    <table className="w-full table-auto border border-collapse border-gray-300">
+                                        <thead>
+                                            <tr className="bg-gray-100">
+                                                <th className="p-2 border">ID</th>
+                                                <th className="p-2 border">Nama Barang</th>
+                                                <th className="p-2 border">Kategori</th>
+                                                <th className="p-2 border">Deskripsi</th>
+                                                <th className="p-2 border">Stok</th>
+                                                <th className="p-2 border">Lokasi</th>
+                                                <th className="p-2 border">Status</th>
+                                                <th className="p-2 border">Aksi</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {barang.map((b, i) => (
+                                                <tr key={i} className="hover:bg-gray-50">
+                                                    <td className="p-2 border">{b.id}</td>
+                                                    <td className="p-2 border">{b.nama_barang}</td>
+                                                    <td className="p-2 border">{b.kategori}</td>
+                                                    <td className="p-2 border">{b.deskripsi}</td>
+                                                    <td className="p-2 border">{b.stok}</td>
+                                                    <td className="p-2 border">{b.lokasi}</td>
+                                                    {/* <td className="p-2 border">{b.status?.nama_status ?? '-'}</td> */}
+                                                    <td className="p-2 border whitespace-pre-line text-sm">
+                                                        {b.status
+                                                                ? `Tersedia: ${b.status.status_tersedia}\nSedang dipinjam: ${b.status.status_sedang_dipinjam}\nRusak: ${b.status.status_rusak}`
+                                                                : "-"}
+                                                    </td>
+                                                    <td className="p-2 border space-x-2">
+                                                        <button onClick={() => handleEdit(b)} className="text-blue-600 hover:underline">Edit</button>
+                                                        <button onClick={() => handleDelete(b.id)} className="text-red-600 hover:underline">Hapus</button>
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Tabel Peminjaman */}
+                        {activeTab === "peminjaman" && (
+                            <div>
+                                <h3 className="text-lg font-semibold mb-2">Daftar Peminjaman</h3>
+                                <div className="overflow-auto">
+                                    <table className="w-full table-auto border border-collapse border-gray-300">
+                                        <thead>
+                                            <tr className="bg-gray-100">
+                                                <th className="p-2 border">ID</th>
+                                                <th className="p-2 border">Nama Barang</th>
+                                                <th className="p-2 border">Alasan</th>
+                                                <th className="p-2 border">Ruangan</th>
+                                                <th className="p-2 border">Status</th>
+                                                <th className="p-2 border">Tanggal Pengajuan</th>
+                                                <th className="p-2 border">Tanggal Disetujui</th>
+                                                <th className="p-2 border">Tanggal Pengembalian</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {peminjaman.map((p, i) => (
+                                                <tr key={i} className="hover:bg-gray-50">
+                                                    <td className="p-2 border">{p.id}</td>
+                                                    <td className="p-2 border">{p.barang?.nama_barang}</td>
+                                                    <td className="p-2 border">{p.alasan}</td>
+                                                    <td className="p-2 border">{p.ruangan}</td>
+                                                    <td className="p-2 border">{p.status}</td>
+                                                    <td className="p-2 border">{p.tanggal_pengajuan}</td>
+                                                    <td className="p-2 border">{p.tanggal_disetujui}</td>
+                                                    <td className="p-2 border">{p.tanggal_pengembalian}</td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        )}
+
                     </div>
                 </div>
             </div>

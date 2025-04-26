@@ -15,12 +15,13 @@ class StatusBarang extends Model
         'barang_id',
         'status_tersedia',
         'status_sedang_dipinjam',
-        'status_rusa',
+        'status_rusak',
     ];
 
     public function barang()
     {
         return $this->belongsTo(Barang::class);
+        // return $this->hasMany(Barang::class, 'status_barang_id');
     }
 
     public function status_barang()

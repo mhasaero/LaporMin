@@ -34,4 +34,10 @@ class Barang extends Model
         return $this->hasMany(Peminjaman::class, 'barang_id');
     }
 
+    public function status()
+    {
+        // return $this->belongsTo(StatusBarang::class, 'status_id');
+        return $this->hasOne(StatusBarang::class, 'barang_id');
+    }
+
 }
