@@ -19,7 +19,6 @@ class Peminjaman extends Model
         'ruangan',
         'tanggal_pengajuan',
         'tanggal_disetujui',
-        'tanggal_pengembalian',
         'status',
     ];
 

@@ -77,7 +77,6 @@ export default function Dashboard({ barang = [], peminjaman = [], users = [], st
         ruangan: "",
         tanggal_pengajuan: "",
         tanggal_disetujui: "",
-        tanggal_pengembalian: "",
         status: "",
     });
     
@@ -108,7 +107,6 @@ export default function Dashboard({ barang = [], peminjaman = [], users = [], st
             ruangan: item.ruangan,
             tanggal_pengajuan: item.tanggal_pengajuan,
             tanggal_disetujui: item.tanggal_disetujui,
-            tanggal_pengembalian: item.tanggal_pengembalian,
             status: item.status,
         });
     };
@@ -244,18 +242,6 @@ export default function Dashboard({ barang = [], peminjaman = [], users = [], st
                                             <input className="border p-2 w-full" type="text" value={pinjamData.ruangan} onChange={(e) => setPinjamData("ruangan", e.target.value)} required />
                                         </div>
                                         <div>
-                                            <label className="block text-sm font-medium mb-1">Tanggal Peminjaman</label>
-                                            <input className="border p-2 w-full" type="date" value={pinjamData.tanggal_pengajuan} onChange={(e) => setPinjamData("tanggal_pengajuan", e.target.value)} required />
-                                        </div>
-                                        <div>
-                                            <label className="block text-sm font-medium mb-1">Tanggal Disetujui</label>
-                                            <input className="border p-2 w-full" type="date" value={pinjamData.tanggal_disetujui} onChange={(e) => setPinjamData("tanggal_disetujui", e.target.value)} />
-                                        </div>
-                                        <div>
-                                            <label className="block text-sm font-medium mb-1">Tanggal Pengembalian</label>
-                                            <input className="border p-2 w-full" type="date" value={pinjamData.tanggal_pengembalian} onChange={(e) => setPinjamData("tanggal_pengembalian", e.target.value)} />
-                                        </div>
-                                        <div>
                                             <label className="block text-sm font-medium mb-1">Status</label>
                                             <select className="border p-2 w-full" value={pinjamData.status} onChange={(e) => setPinjamData("status", e.target.value)} required>
                                                 <option value="">Status</option>
@@ -265,6 +251,14 @@ export default function Dashboard({ barang = [], peminjaman = [], users = [], st
                                                     </option>
                                                 ))}
                                             </select>
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm font-medium mb-1">Tanggal Peminjaman</label>
+                                            <input className="border p-2 w-full" type="date" value={pinjamData.tanggal_pengajuan} onChange={(e) => setPinjamData("tanggal_pengajuan", e.target.value)} required />
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm font-medium mb-1">Tanggal Disetujui</label>
+                                            <input className="border p-2 w-full" type="date" value={pinjamData.tanggal_disetujui} onChange={(e) => setPinjamData("tanggal_disetujui", e.target.value)} />
                                         </div>
                                     </div>
 
@@ -284,7 +278,6 @@ export default function Dashboard({ barang = [], peminjaman = [], users = [], st
                                             <th className="p-2 border">Status</th>
                                             <th className="p-2 border">Tanggal Pengajuan</th>
                                             <th className="p-2 border">Tanggal Disetujui</th>
-                                            <th className="p-2 border">Tanggal Pengembalian</th>
                                             <th className="p-2 border">Aksi</th>
                                         </tr>
                                     </thead>
@@ -298,7 +291,6 @@ export default function Dashboard({ barang = [], peminjaman = [], users = [], st
                                                 <td className="p-2 border">{p.status}</td>
                                                 <td className="p-2 border">{p.tanggal_pengajuan}</td>
                                                 <td className="p-2 border">{p.tanggal_disetujui}</td>
-                                                <td className="p-2 border">{p.tanggal_pengembalian}</td>
                                                 <td className="p-2 border space-x-2">
                                                     <button onClick={() => handleEditPinjam(p)} className="text-blue-600 hover:underline">Edit</button>
                                                     <button onClick={() => handleDeletePinjam(p.id)} className="text-red-600 hover:underline">Hapus</button>
