@@ -21,10 +21,14 @@ class BoxController extends Controller
         ]);  
     }
 
-    public function confirm()
-    {
-        return Inertia::render('Box/Confirm', []);  
-    }
+    public function confirm(Request $request)
+{
+    $selectedBox = $request->input('selectedBox');
+
+    return Inertia::render('Box/Confirm', [
+        'selectedBox' => $selectedBox
+    ]);
+}
 
     public function store(Request $request)
     {    

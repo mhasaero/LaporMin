@@ -30,7 +30,7 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/box', [BoxController::class, 'index'])->name('box.index');
-Route::get('/box-confirm', [BoxController::class, 'confirm'])->name('box.confirm');
+Route::post('/box-confirm', [BoxController::class, 'confirm'])->name('box.confirm');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
