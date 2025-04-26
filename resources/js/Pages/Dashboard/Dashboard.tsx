@@ -1,5 +1,5 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, router, useForm } from "@inertiajs/react";
+import { Head, useForm } from "@inertiajs/react";
 import { useState } from "react";
 
 interface DashboardProps {
@@ -9,7 +9,7 @@ interface DashboardProps {
     status: any[];
 }
 
-export default function Dashboard({ barang = [], peminjaman = [], users = [] }: DashboardProps) {
+export default function Dashboard({ barang = [], peminjaman = [], users = [], status = [] }: DashboardProps) {
     const [activeTab, setActiveTab] = useState("barang");
     const [editing, setEditing] = useState(null);
 
@@ -61,6 +61,62 @@ export default function Dashboard({ barang = [], peminjaman = [], users = [] }: 
             destroy(`/barang/${id}`);
         }
     };
+
+
+    const {
+        data: pinjamData,
+        setData: setPinjamData,
+        reset: resetPinjam,
+        post: postPinjam,
+        put: putPinjam,
+        delete: deletePinjam,
+    } = useForm({
+        id: "",
+        barang_id: "",
+        alasan: "",
+        ruangan: "",
+        tanggal_pengajuan: "",
+        tanggal_disetujui: "",
+        status: "",
+    });
+    
+    const [editingPinjam, setEditingPinjam] = useState(null);
+    
+    const handleSubmitPinjam = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (editingPinjam) {
+            putPinjam(`/peminjaman/${pinjamData.id}`, {
+                onSuccess: () => {
+                    resetPinjam();
+                    setEditingPinjam(null);
+                },
+            });
+        } else {
+            postPinjam("/peminjaman", {
+                onSuccess: () => resetPinjam(),
+            });
+        }
+    };
+    
+    const handleEditPinjam = (item: any) => {
+        setEditingPinjam(item);
+        setPinjamData({
+            id: item.id,
+            barang_id: item.barang_id,
+            alasan: item.alasan,
+            ruangan: item.ruangan,
+            tanggal_pengajuan: item.tanggal_pengajuan,
+            tanggal_disetujui: item.tanggal_disetujui,
+            status: item.status,
+        });
+    };
+    
+    const handleDeletePinjam = (id: number) => {
+        if (confirm("Yakin ingin menghapus peminjaman ini?")) {
+            deletePinjam(`/peminjaman/${id}`);
+        }
+    };
+
 
     return (
         <AuthenticatedLayout header={<h2 className="text-xl font-semibold leading-tight text-gray-800">Dashboard</h2>}>
@@ -142,7 +198,6 @@ export default function Dashboard({ barang = [], peminjaman = [], users = [] }: 
                                                     <td className="p-2 border">{b.deskripsi}</td>
                                                     <td className="p-2 border">{b.stok}</td>
                                                     <td className="p-2 border">{b.lokasi}</td>
-                                                    {/* <td className="p-2 border">{b.status?.nama_status ?? '-'}</td> */}
                                                     <td className="p-2 border whitespace-pre-line text-sm">
                                                         {b.status
                                                                 ? `Tersedia: ${b.status.status_tersedia}\nSedang dipinjam: ${b.status.status_sedang_dipinjam}\nRusak: ${b.status.status_rusak}`
@@ -163,40 +218,90 @@ export default function Dashboard({ barang = [], peminjaman = [], users = [] }: 
                         {/* Tabel Peminjaman */}
                         {activeTab === "peminjaman" && (
                             <div>
-                                <h3 className="text-lg font-semibold mb-2">Daftar Peminjaman</h3>
-                                <div className="overflow-auto">
-                                    <table className="w-full table-auto border border-collapse border-gray-300">
-                                        <thead>
-                                            <tr className="bg-gray-100">
-                                                <th className="p-2 border">ID</th>
-                                                <th className="p-2 border">Nama Barang</th>
-                                                <th className="p-2 border">Alasan</th>
-                                                <th className="p-2 border">Ruangan</th>
-                                                <th className="p-2 border">Status</th>
-                                                <th className="p-2 border">Tanggal Pengajuan</th>
-                                                <th className="p-2 border">Tanggal Disetujui</th>
-                                                <th className="p-2 border">Tanggal Pengembalian</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {peminjaman.map((p, i) => (
-                                                <tr key={i} className="hover:bg-gray-50">
-                                                    <td className="p-2 border">{p.id}</td>
-                                                    <td className="p-2 border">{p.barang?.nama_barang}</td>
-                                                    <td className="p-2 border">{p.alasan}</td>
-                                                    <td className="p-2 border">{p.ruangan}</td>
-                                                    <td className="p-2 border">{p.status}</td>
-                                                    <td className="p-2 border">{p.tanggal_pengajuan}</td>
-                                                    <td className="p-2 border">{p.tanggal_disetujui}</td>
-                                                    <td className="p-2 border">{p.tanggal_pengembalian}</td>
-                                                </tr>
-                                            ))}
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        )}
+                                <h3 className="text-lg font-semibold mb-4">Manajemen Peminjaman</h3>
 
+                                <form onSubmit={handleSubmitPinjam} className="space-y-4 mb-6">
+                                    <div className="grid grid-cols-2 gap-4">
+                                        <div>
+                                            <label className="block text-sm font-medium mb-1">Pilih Barang</label>
+                                            <select className="border p-2 w-full" value={pinjamData.barang_id} onChange={(e) => setPinjamData("barang_id", e.target.value)} required>
+                                                <option value="">Pilih Barang</option>
+                                                    {barang.map((b) => (
+                                                <option key={b.id} value={b.id}>
+                                                    {b.nama_barang}
+                                                </option>
+                                                ))}
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm font-medium mb-1">Alasan</label>
+                                            <input className="border p-2 w-full" type="text" value={pinjamData.alasan} onChange={(e) => setPinjamData("alasan", e.target.value)} required />
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm font-medium mb-1">Ruangan</label>
+                                            <input className="border p-2 w-full" type="text" value={pinjamData.ruangan} onChange={(e) => setPinjamData("ruangan", e.target.value)} required />
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm font-medium mb-1">Status</label>
+                                            <select className="border p-2 w-full" value={pinjamData.status} onChange={(e) => setPinjamData("status", e.target.value)} required>
+                                                <option value="">Status</option>
+                                                {status.map((s: string, idx: number) => (
+                                                    <option key={idx} value={s}>
+                                                        {s}
+                                                    </option>
+                                                ))}
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm font-medium mb-1">Tanggal Peminjaman</label>
+                                            <input className="border p-2 w-full" type="date" value={pinjamData.tanggal_pengajuan} onChange={(e) => setPinjamData("tanggal_pengajuan", e.target.value)} required />
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm font-medium mb-1">Tanggal Disetujui</label>
+                                            <input className="border p-2 w-full" type="date" value={pinjamData.tanggal_disetujui} onChange={(e) => setPinjamData("tanggal_disetujui", e.target.value)} />
+                                        </div>
+                                    </div>
+
+                                    <button type="submit" className="px-4 py-2 bg-green-600 text-white rounded">
+                                        {editingPinjam ? "Update Peminjaman" : "Tambah Peminjaman"}
+                                    </button>
+                                </form>
+
+                            <div className="overflow-auto">
+                                <table className="w-full table-auto border border-collapse border-gray-300">
+                                    <thead>
+                                        <tr className="bg-gray-100">
+                                            <th className="p-2 border">ID</th>
+                                            <th className="p-2 border">Nama Barang</th>
+                                            <th className="p-2 border">Alasan</th>
+                                            <th className="p-2 border">Ruangan</th>
+                                            <th className="p-2 border">Status</th>
+                                            <th className="p-2 border">Tanggal Pengajuan</th>
+                                            <th className="p-2 border">Tanggal Disetujui</th>
+                                            <th className="p-2 border">Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {peminjaman.map((p, i) => (
+                                            <tr key={i} className="hover:bg-gray-50">
+                                                <td className="p-2 border">{p.id}</td>
+                                                <td className="p-2 border">{p.barang?.nama_barang}</td>
+                                                <td className="p-2 border">{p.alasan}</td>
+                                                <td className="p-2 border">{p.ruangan}</td>
+                                                <td className="p-2 border">{p.status}</td>
+                                                <td className="p-2 border">{p.tanggal_pengajuan}</td>
+                                                <td className="p-2 border">{p.tanggal_disetujui}</td>
+                                                <td className="p-2 border space-x-2">
+                                                    <button onClick={() => handleEditPinjam(p)} className="text-blue-600 hover:underline">Edit</button>
+                                                    <button onClick={() => handleDeletePinjam(p.id)} className="text-red-600 hover:underline">Hapus</button>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        )}
                     </div>
                 </div>
             </div>

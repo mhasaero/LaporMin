@@ -14,11 +14,11 @@ class Peminjaman extends Model
     protected $fillable = [
         'nim',
         'barang_id',
-        'tanggal_peminjaman',
+        // 'tanggal_peminjaman',
         'alasan',
         'ruangan',
+        'tanggal_pengajuan',
         'tanggal_disetujui',
-        'tanggal_pengembalian',
         'status',
     ];
 
