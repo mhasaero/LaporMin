@@ -1,14 +1,15 @@
-import { Link, usePage } from "@inertiajs/react";
+import { Link, router, usePage } from "@inertiajs/react";
 import { LogOut, PackageOpen, User } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function AuthenticatedLayout({ header, children }: any) {
     // const user = usePage().props.auth.user;
 
-    const { url, component } = usePage();
+    const { auth } = usePage().props as any;
 
-    const [showingNavigationDropdown, setShowingNavigationDropdown] =
-        useState(false);
+    if (!auth.user) {
+        router.visit("/login");
+    }
 
     const [scrolled, setScrolled] = useState(false);
 
