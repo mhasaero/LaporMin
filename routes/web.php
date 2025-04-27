@@ -17,11 +17,11 @@ Route::get('/inventaris', function () {
     return Inertia::render('Dashboard/Inventaris');
 })->name('inventaris');
 
-// Route::get('/barang', [BarangController::class, 'index'])->name('barang.index');
-// Route::get('/barang/create', [BarangController::class, 'create'])->name('barang.create');
-// Route::post('/barang', [BarangController::class, 'store'])->name('barang.store');
-// Route::put('/barang/{barang}', [BarangController::class, 'update'])->name('barang.update');
-// Route::delete('/barang/{barang}', [BarangController::class, 'destroy'])->name('barang.destroy');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/admin/peminjaman-approval', [PeminjamanController::class, 'showApproval'])->name('admin.peminjaman.approval');
+    Route::post('/admin/peminjaman-approval/{peminjaman}/approve', [PeminjamanController::class, 'approve'])->name('admin.peminjaman.approve');
+    Route::post('/admin/peminjaman-approval/{peminjaman}/reject', [PeminjamanController::class, 'reject'])->name('admin.peminjaman.reject');
+});
 
 Route::get('/pengaduan', function () {
     return Inertia::render('Dashboard/Pengaduan');

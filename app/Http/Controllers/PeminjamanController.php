@@ -31,11 +31,6 @@ class PeminjamanController extends Controller
 
     public function store(Request $request)
     {
-        // $request->validate([
-        //     'alasan' => 'required|string|max:255',
-        //     'ruangan' => 'required|string|max:100',
-        // ]);
-
         $daftarBarang = $request->selectedIds;
 
         foreach ($daftarBarang as $id) {
@@ -52,6 +47,17 @@ class PeminjamanController extends Controller
         return redirect()->route('dashboard')->with('success', 'Peminjaman berhasil diupdate!');
     }
 
+    public function showApproval(Peminjaman $peminjaman)
+    {
+        $peminjamans = Peminjaman::with('barang')
+            ->where('status', 'Belum Diproses')
+            ->get();
+
+        return inertia('Admin/Approval', [
+            'peminjamans' => $peminjamans,
+        ]);
+    }
+
     public function approve(Peminjaman $peminjaman)
     {
         $peminjaman->update([
@@ -59,11 +65,11 @@ class PeminjamanController extends Controller
             'tanggal_disetujui' => now(),
         ]);
 
-        $status = StatusBarang::where('barang_id', $peminjaman->barang_id)->first();
-        if ($status) {
-            $status->decrement('status_tersedia');
-            $status->increment('status_dipinjam');
-        }
+        // $status = StatusBarang::where('barang_id', $peminjaman->id)->first();
+        // if ($status) {
+        //     $status->decrement('status_tersedia');
+        //     $status->increment('status_dipinjam');
+        // }
         
         return redirect()->back()->with('success', 'Peminjaman disetujui.');
     }
