@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Peminjaman;
 use App\Models\Barang;
 use App\Models\StatusBarang;
+use App\Models\RiwayatPeminjaman;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
@@ -81,6 +82,10 @@ class PeminjamanController extends Controller
     {
         $peminjaman->update([
             'status' => 'Sudah Dikembalikan',
+        ]);
+
+        RiwayatPeminjaman::create([
+            'peminjaman_id' => $peminjaman->id,
             'tanggal_pengembalian' => now(),
         ]);
 

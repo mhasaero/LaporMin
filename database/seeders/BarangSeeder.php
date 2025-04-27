@@ -20,7 +20,6 @@ class BarangSeeder extends Seeder
                 'kategori' => 'Test',
                 'deskripsi' => 'Tidak Test',
                 'stok' => 2,
-                'status' => 'Tersedia',
                 'lokasi' => 'Lab A',
                 'created_at' => now(),
                 'updated_at' => now(),
