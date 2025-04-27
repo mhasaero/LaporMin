@@ -31,22 +31,25 @@ class PeminjamanController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'barang_id' => 'required|exists:barang,id',
-            'alasan' => 'required|string|max:255',
-            'ruangan' => 'required|string|max:100',
-        ]);
+        // $request->validate([
+        //     'alasan' => 'required|string|max:255',
+        //     'ruangan' => 'required|string|max:100',
+        // ]);
 
-        Peminjaman::create([
-            'nim' => Auth::user()->nim,
-            'barang_id' => $request->barang_id,
-            'tanggal_peminjaman' => now(),
-            'alasan' => $request->alasan,
-            'ruangan' => $request->ruangan,
-            'status' => 'Belum Diproses',
-        ]);
+        $daftarBarang = Barang::findMany($request->selectedIds);
 
-        return redirect()->back()->with('success', 'Pengajuan berhasil dikirim.');
+        foreach ($request->selectedIds as $id) {
+            Peminjaman::create([
+                'nim' => Auth::user()->nim,
+                'barang_id' => $id,
+                'tanggal_peminjaman' => now(),
+                'alasan' => $request->alasan,
+                'ruangan' => $request->ruangan,
+                'status' => 'Belum Diproses',
+            ]);
+        }
+
+        return redirect()->route('dashboard')->with('success', 'Peminjaman berhasil diupdate!');
     }
 
     public function approve(Peminjaman $peminjaman)

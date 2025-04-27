@@ -3,6 +3,7 @@ import { Button } from "@/Components/ui/button";
 import BoxLayout from "@/Layouts/BoxLayout";
 import { Input } from "@/Components/ui/input";
 import { useState } from "react";
+import axios from "axios";
 
 type BoxItem = {
     barang: {
@@ -21,11 +22,13 @@ export default function Confirm({ selectedBox }: Props) {
     const [alasan, setAlasan] = useState("");
 
     function handleSubmit() {
+        const selectedIds = selectedBox.map((item) => item.barang.id);
         router.post("/peminjaman", {
-            selectedBox,
+            selectedIds,
             ruangan,
             alasan,
         });
+        console.log(selectedIds, ruangan, alasan);
     }
 
     return (
