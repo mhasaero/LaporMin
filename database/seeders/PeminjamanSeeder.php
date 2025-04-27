@@ -23,7 +23,6 @@ class PeminjamanSeeder extends Seeder
                 'status' => 'Belum Diproses',
                 'tanggal_pengajuan' => Carbon::now(),
                 'tanggal_disetujui' => null,
-                'tanggal_pengembalian' => null,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
