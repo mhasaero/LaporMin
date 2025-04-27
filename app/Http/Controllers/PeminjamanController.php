@@ -36,9 +36,9 @@ class PeminjamanController extends Controller
         //     'ruangan' => 'required|string|max:100',
         // ]);
 
-        $daftarBarang = Barang::findMany($request->selectedIds);
+        $daftarBarang = $request->selectedIds;
 
-        foreach ($request->selectedIds as $id) {
+        foreach ($daftarBarang as $id) {
             Peminjaman::create([
                 'nim' => Auth::user()->nim,
                 'barang_id' => $id,
