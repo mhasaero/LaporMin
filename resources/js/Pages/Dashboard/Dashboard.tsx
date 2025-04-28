@@ -7,9 +7,10 @@ interface DashboardProps {
     peminjaman: any[];
     users: any[];
     status: any[];
+    pengaduan: any[];
 }
 
-export default function Dashboard({ barang = [], peminjaman = [], users = [], status = [] }: DashboardProps) {
+export default function Dashboard({ barang = [], peminjaman = [], users = [], status = [], pengaduan = [] }: DashboardProps) {
     const [activeTab, setActiveTab] = useState("barang");
     const [editing, setEditing] = useState(null);
 
@@ -127,7 +128,7 @@ export default function Dashboard({ barang = [], peminjaman = [], users = [], st
                     <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg p-6 text-gray-900">
 
                         {/* Statistik */}
-                        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
                             <div className="bg-gray-100 p-4 rounded shadow">
                                 <h2 className="font-semibold">Total Barang</h2>
                                 <p className="text-xl">{barang.length}</p>
@@ -140,6 +141,10 @@ export default function Dashboard({ barang = [], peminjaman = [], users = [], st
                                 <h2 className="font-semibold">Total Pengguna</h2>
                                 <p className="text-xl">{users.length}</p>
                             </div>
+                            <div className="bg-gray-100 p-4 rounded shadow">
+                                <h2 className="font-semibold">Total Pengaduan</h2>
+                                <p className="text-xl">{pengaduan.length}</p>
+                            </div>
                         </div>
 
                         {/* Tab Navigasi */}
@@ -149,6 +154,9 @@ export default function Dashboard({ barang = [], peminjaman = [], users = [], st
                             </button>
                             <button className={`px-4 py-2 rounded ${activeTab === "peminjaman" ? "bg-blue-600 text-white" : "bg-gray-200"}`} onClick={() => setActiveTab("peminjaman")}>
                                 Peminjaman
+                            </button>
+                            <button className={`px-4 py-2 rounded ${activeTab === "pengaduan" ? "bg-blue-600 text-white" : "bg-gray-200"}`} onClick={() => setActiveTab("pengaduan")}>
+                                Pengaduan
                             </button>
                         </div>
 
@@ -302,6 +310,36 @@ export default function Dashboard({ barang = [], peminjaman = [], users = [], st
                             </div>
                         </div>
                         )}
+
+
+                        {/* Tabel Pengaduan */}
+                        {activeTab === "pengaduan" && (
+                            <div>
+                                <h3 className="text-lg font-semibold mb-2">Daftar Pengaduan</h3>
+                                <div className="overflow-auto">
+                                    <table className="w-full table-auto border border-collapse border-gray-300">
+                                        <thead>
+                                            <tr className="bg-gray-100">
+                                                <th className="p-2 border">ID</th>
+                                                <th className="p-2 border">Nama</th>
+                                                <th className="p-2 border">Pesan</th>
+                                                <th className="p-2 border">Link Gambar</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {pengaduan.map((p, i) => (
+                                                <tr key={i} className="hover:bg-gray-50">
+                                                    <td className="p-2 border">{p.id}</td>
+                                                    <td className="p-2 border">{p.name}</td>
+                                                    <td className="p-2 border">{p.msg}</td>
+                                                    <td className="p-2 border">{p.link_gambar}</td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        )} 
                     </div>
                 </div>
             </div>

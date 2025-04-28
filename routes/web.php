@@ -6,6 +6,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\BoxController;
 use App\Http\Controllers\PeminjamanController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PengaduanController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -59,5 +60,6 @@ Route::post('/barang', [BarangController::class, 'store']);
 Route::put('/barang/{id}', [BarangController::class, 'update']);
 Route::delete('/barang/{id}', [BarangController::class, 'destroy']);
 
+Route::post('/pengaduan', [PengaduanController::class, 'store'])->name('pengaduan.store');
 
 require __DIR__.'/auth.php';

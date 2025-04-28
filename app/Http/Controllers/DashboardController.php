@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Barang;
 use App\Models\Peminjaman;
 use App\Models\User;
+use App\Models\Pengaduan;
 use Inertia\Inertia;
 
 class DashboardController extends Controller
@@ -21,6 +22,7 @@ class DashboardController extends Controller
             'peminjaman' => $peminjaman,
             'users' => User::all(),
             'status' => $opsiStatus,
+            'pengaduan' => Pengaduan::all(),
         ]);
     }
 }
