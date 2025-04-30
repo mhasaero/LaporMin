@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Inertia\Response;
 use App\Models\Barang;
+use App\Models\Peminjaman;
 
 class ProfileController extends Controller
 {
@@ -37,10 +38,16 @@ class ProfileController extends Controller
 
     public function pinjamanSaya(Request $request): Response
     {
-        $barang = Barang::all(); // Ambil satu data dulu sebagai contoh
-    
+        $userNim = Auth::user()->nim;
+
+        $peminjaman = Peminjaman::with('barang') // jika ada relasi ke barang
+            ->whereHas('user', function ($query) use ($userNim) {
+                $query->where('nim', $userNim);
+            })
+            ->get();
+
         return Inertia::render('Profile/RiwayatPinjaman', [
-            'barang' => $barang
+            'barang' => $peminjaman
         ]);
     }
     
