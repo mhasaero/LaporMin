@@ -105,4 +105,10 @@ class PeminjamanController extends Controller
         return redirect()->back()->with('success', 'Barang berhasil dikembalikan.');
     }
 
+    public function showReturnApproval()
+    {
+        $peminjamans = Peminjaman::where('status', 'Sedang Dipinjam')->with('barang')->get();
+        return inertia('Admin/ReturnApproval', ['peminjamans' => $peminjamans]);
+    }
+
 }

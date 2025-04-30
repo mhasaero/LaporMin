@@ -28,7 +28,7 @@ export default function Approval({ peminjamans }: Props) {
     return (
         <BoxLayout>
             <Head title="Approval Peminjaman" />
-            <div className="mt-24 space-y-8 p-6">
+            <div className="pt-24 space-y-8 p-6">
                 <h1 className="text-3xl font-bold">Approval Peminjaman</h1>
                 {peminjamans.length === 0 && (
                     <p>Tidak ada peminjaman yang perlu diproses.</p>

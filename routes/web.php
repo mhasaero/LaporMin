@@ -22,6 +22,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/peminjaman-approval', [PeminjamanController::class, 'showApproval'])->name('admin.peminjaman.approval');
     Route::post('/admin/peminjaman-approval/{peminjaman}/approve', [PeminjamanController::class, 'approve'])->name('admin.peminjaman.approve');
     Route::post('/admin/peminjaman-approval/{peminjaman}/reject', [PeminjamanController::class, 'reject'])->name('admin.peminjaman.reject');
+
+    Route::get('/admin/pengembalian-approval', [PeminjamanController::class, 'showReturnApproval'])->name('admin.pengembalian.approval');
+    Route::post('/admin/pengembalian-approval/{peminjaman}/approve', [PeminjamanController::class, 'return'])->name('admin.pengembalian.approve');
 });
 
 Route::get('/pengaduan', function () {
@@ -51,10 +54,6 @@ Route::middleware('auth')->group(function () {
 Route::get('/peminjaman', [PeminjamanController::class, 'index'])->name('peminjaman.index');
 Route::get('/peminjaman/create', [PeminjamanController::class, 'create'])->name('peminjaman.create');
 Route::post('/peminjaman', [PeminjamanController::class, 'store'])->name('peminjaman.store');
-
-Route::post('/peminjaman/{peminjaman}/approve', [PeminjamanController::class, 'approve'])->name('peminjaman.approve');
-Route::post('/peminjaman/{peminjaman}/reject', [PeminjamanController::class, 'reject'])->name('peminjaman.reject');
-Route::post('/peminjaman/{peminjaman}/return', [PeminjamanController::class, 'return'])->name('peminjaman.return');
 
 Route::post('/barang', [BarangController::class, 'store']);
 Route::put('/barang/{id}', [BarangController::class, 'update']);
