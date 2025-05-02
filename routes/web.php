@@ -15,7 +15,7 @@ Route::get('/', [HomeController::class, 'index'])->name('home.index');
 Route::post('/', [BoxController::class, 'store'])->name('home.store');
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::get('/admin/peminjaman-approval', [PeminjamanController::class, 'showApproval'])->name('admin.peminjaman.approval');
     Route::post('/admin/peminjaman-approval/{peminjaman}/approve', [PeminjamanController::class, 'approve'])->name('admin.peminjaman.approve');

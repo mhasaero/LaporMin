@@ -17,7 +17,7 @@ class DashboardController extends Controller
         $peminjaman = Peminjaman::with(['barang', 'user'])->get();
         $opsiStatus = ['Belum Diproses', 'Sedang Dipinjam', 'Sudah Dikembalikan', 'Pengajuan Ditolak'];
 
-        return Inertia::render('Dashboard/Dashboard', [
+        return Inertia::render('Admin/Dashboard/Dashboard', [
             'barang' => $barang,
             'peminjaman' => $peminjaman,
             'users' => User::all(),

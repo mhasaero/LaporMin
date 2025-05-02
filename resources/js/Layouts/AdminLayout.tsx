@@ -55,7 +55,7 @@ export default function AdminLayout({
                         <PackageCheck className="w-5 h-5" /> Pengembalian
                     </Link>
                     <Link
-                        href="/dashboard"
+                        href="/admin/dashboard"
                         className="hover:text-blue-600 flex items-center gap-1"
                     >
                         <Home className="w-5 h-5" /> Dashboard
@@ -93,7 +93,7 @@ export default function AdminLayout({
                         <PackageCheck className="w-5 h-5" /> Pengembalian
                     </Link>
                     <Link
-                        href="/dashboard"
+                        href="/admin/dashboard"
                         className=" flex items-center gap-2"
                     >
                         <Home className="w-5 h-5" /> Dashboard
