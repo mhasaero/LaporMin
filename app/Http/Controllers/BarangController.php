@@ -70,13 +70,19 @@ class BarangController extends Controller
         return redirect()->route('dashboard')->with('success', 'Barang berhasil diupdate!');
     }
 
-    public function destroy(Barang $barang)
+    public function destroy($id)
     {
+        
 
-        StatusBarang::where('barang_id', $barang->id)->delete();
+    $barang = Barang::find($id);
 
-        $barang->delete();
+    if (!$barang) {
+        return redirect()->route('dashboard')->with('error', 'Barang tidak ditemukan');
+    }
 
-        return redirect()->route('dashboard')->with('success', 'Barang berhasil dihapus!');
+    $barang->delete();
+
+    return redirect()->route('dashboard')->with('success', 'Barang berhasil dihapus');
+
     }
 }

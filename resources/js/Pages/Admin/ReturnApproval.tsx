@@ -1,5 +1,5 @@
 import { Head, router } from "@inertiajs/react";
-import BoxLayout from "@/Layouts/BoxLayout";
+import AdminLayout from "@/Layouts/AdminLayout";
 import { Button } from "@/Components/ui/button";
 
 type Peminjaman = {
@@ -22,7 +22,7 @@ export default function ReturnApproval({ peminjamans }: Props) {
     };
 
     return (
-        <BoxLayout>
+        <AdminLayout>
             <Head title="Approval Pengembalian" />
             <div className="pt-24 space-y-8 p-6">
                 <h1 className="text-3xl font-bold">Approval Pengembalian</h1>
@@ -51,6 +51,6 @@ export default function ReturnApproval({ peminjamans }: Props) {
                     ))}
                 </div>
             </div>
-        </BoxLayout>
+        </AdminLayout>
     );
 }
