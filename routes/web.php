@@ -14,31 +14,24 @@ use Inertia\Inertia;
 Route::get('/', [HomeController::class, 'index'])->name('home.index');
 Route::post('/', [BoxController::class, 'store'])->name('home.store');
 
-Route::get('/inventaris', function () {
-    return Inertia::render('Dashboard/Inventaris');
-})->name('inventaris');
-
 Route::middleware(['auth'])->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
     Route::get('/admin/peminjaman-approval', [PeminjamanController::class, 'showApproval'])->name('admin.peminjaman.approval');
     Route::post('/admin/peminjaman-approval/{peminjaman}/approve', [PeminjamanController::class, 'approve'])->name('admin.peminjaman.approve');
     Route::post('/admin/peminjaman-approval/{peminjaman}/reject', [PeminjamanController::class, 'reject'])->name('admin.peminjaman.reject');
 
     Route::get('/admin/pengembalian-approval', [PeminjamanController::class, 'showReturnApproval'])->name('admin.pengembalian.approval');
     Route::post('/admin/pengembalian-approval/{peminjaman}/approve', [PeminjamanController::class, 'return'])->name('admin.pengembalian.approve');
+
+    Route::get('/peminjaman', [PeminjamanController::class, 'index'])->name('peminjaman.index');
+    Route::get('/peminjaman/create', [PeminjamanController::class, 'create'])->name('peminjaman.create');
+    Route::post('/peminjaman', [PeminjamanController::class, 'store'])->name('peminjaman.store');
+
+    Route::post('/barang', [BarangController::class, 'store']);
+    Route::put('/barang/{id}', [BarangController::class, 'update']);
+    Route::delete('/barang/{id}', [BarangController::class, 'destroy']);
 });
-
-Route::get('/pengaduan', function () {
-    return Inertia::render('Dashboard/Pengaduan');
-})->name('pengaduan');
-
-// Route::get('/dashboard', function () {
-//     return Inertia::render('Dashboard/Dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
-
-Route::get('/dashboard', [DashboardController::class, 'index'])
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard');
-
 
 Route::get('/box', [BoxController::class, 'index'])->name('box.index');
 Route::post('/box-confirm', [BoxController::class, 'confirm'])->name('box.confirm');
@@ -50,14 +43,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/pinjamanSaya', [ProfileController::class, 'pinjamanSaya'])->name('profile.pinjamanSaya'); //tes
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-
-Route::get('/peminjaman', [PeminjamanController::class, 'index'])->name('peminjaman.index');
-Route::get('/peminjaman/create', [PeminjamanController::class, 'create'])->name('peminjaman.create');
-Route::post('/peminjaman', [PeminjamanController::class, 'store'])->name('peminjaman.store');
-
-Route::post('/barang', [BarangController::class, 'store']);
-Route::put('/barang/{id}', [BarangController::class, 'update']);
-Route::delete('/barang/{id}', [BarangController::class, 'destroy']);
 
 Route::post('/pengaduan', [PengaduanController::class, 'store'])->name('pengaduan.store');
 
