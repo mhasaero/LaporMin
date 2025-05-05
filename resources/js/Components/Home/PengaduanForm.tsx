@@ -33,6 +33,7 @@ const formSchema = z.object({
     }),
     images: z
         .any()
+        .optional()
         .refine(
             (files) => {
                 return Array.from(files).every((file) => file instanceof File);
@@ -60,7 +61,6 @@ export default function PengaduanForm() {
             name: values.name,
             msg: values.msg,
         });
-        console.log(values.name);
     }
     return (
         <div id="pengaduan" className="w-full flex justify-center">
