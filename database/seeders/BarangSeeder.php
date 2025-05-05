@@ -6,6 +6,7 @@ namespace Database\Seeders;
 // use Illuminate\Database\Seeder;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use App\Models\Barang;
 
 class BarangSeeder extends Seeder
 {
@@ -88,6 +89,19 @@ class BarangSeeder extends Seeder
                 'updated_at' => now(),
             ],
         ]);
+
+        $barangs = Barang::all();
+
+        foreach ($barangs as $barang) {
+            DB::table('status_barang')->insert([
+                'barang_id' => $barang->id,
+                'status_tersedia' => $barang->stok,
+                'status_rusak' => 0,
+                'status_sedang_dipinjam' => 0,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        }
         
     }
 }
