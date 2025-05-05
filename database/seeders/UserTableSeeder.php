@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class UserTableSeeder extends Seeder
@@ -15,27 +16,41 @@ class UserTableSeeder extends Seeder
      */
     public function run(): void
     {
-        //create user
-        $user = User::create([
-            'name'      => 'Syafik',
-            'email'     => '09021182328015@student.unsri.com',
-            'nim'       => '09021182328015',
-            'fakultas'  => 'Fakultas Ilmu Komputer',
-            'jurusan'   => 'Teknik Informatika',
-            'no_telp'   => '082123456789',
-            'password'  => bcrypt('password'),
-        ]);
 
         //get all permissions
         $permissions = Permission::all();
 
-        //get role admin
-        $role = Role::find(1);
+        $adminRole = Role::find(1);
+        $userRole = Role::find(2);
 
-        //assign permission to role
-        $role->syncPermissions($permissions);
+        $adminRole->syncPermissions($permissions);
 
-        //assign role to user
-        $user->assignRole($role);
+        // --- Buat akun admin ---
+        $admin = User::firstOrCreate(
+            ['email' => 'admin@student.unsri.ac.id'],
+            [
+                'name'      => 'Admin',
+                'nim'       => '09021182328001',
+                'fakultas'  => 'Fakultas Ilmu Komputer',
+                'jurusan'   => 'Teknik Informatika',
+                'no_telp'   => '081234567890',
+                'password'  => Hash::make('admin123'),
+            ]
+        );
+        $admin->assignRole($adminRole);
+
+        // --- Buat akun user biasa ---
+        $user = User::firstOrCreate(
+            ['email' => '09021182328015@student.unsri.ac.id'],
+            [
+                'name'      => 'M. Ilham Syafik',
+                'nim'       => '09021182328015',
+                'fakultas'  => 'Fakultas Ilmu Komputer',
+                'jurusan'   => 'Teknik Informatika',
+                'no_telp'   => '082123456789',
+                'password'  => Hash::make('password'),
+            ]
+        );
+        $user->assignRole($userRole);
     }
 }
