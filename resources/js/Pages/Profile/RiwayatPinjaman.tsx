@@ -72,7 +72,7 @@ export default function RiwayatPinjaman({ barang }: any) {
                             {barang
                                 .filter(
                                     (item: any) =>
-                                        item.status == "Sudah di Kembalikan"
+                                        item.status == "Sudah Dikembalikan"
                                 )
                                 .map((item: any, index: number) => (
                                     <ItemsCard
