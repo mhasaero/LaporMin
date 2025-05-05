@@ -30,22 +30,34 @@ class BoxController extends Controller
     ]);
 }
 
-    public function store(Request $request)
-    {    
-        $validated = $request->validate([
-            'barang_id' => 'required|integer|min:1',
-            'quantity' => 'required|integer|min:1',
+public function store(Request $request)
+{
+    $validated = $request->validate([
+        'barang_id' => 'required|integer|min:1',
+        'quantity' => 'required|integer|min:1',
+    ]);
+
+    $userNim = Auth::user()->nim;
+
+    // Cek apakah data barang_id dan nim sudah ada
+    $existing = Box::where('nim', $userNim)
+                    ->where('barang_id', $validated['barang_id'])
+                    ->first();
+
+    if ($existing) {
+        return redirect()->back()->withErrors([
+            'barang_id' => 'Barang ini sudah ditambahkan ke keranjang.',
         ]);
-
-        $user = Auth::user()->nim;
-
-        Box::create([
-            'nim' => $user,
-            'barang_id' => $validated['barang_id'],
-            'quantity' => $validated['quantity'],
-        ]);
-
-
-        return redirect()->route('box.index')->with('success', 'Barang berhasil diupdate!');
     }
+
+    // Simpan data baru
+    Box::create([
+        'nim' => $userNim,
+        'barang_id' => $validated['barang_id'],
+        'quantity' => $validated['quantity'],
+    ]);
+
+    return redirect()->route('box.index')->with('success', 'Barang berhasil ditambahkan!');
+}
+
 }

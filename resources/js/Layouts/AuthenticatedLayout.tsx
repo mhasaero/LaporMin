@@ -1,6 +1,7 @@
 import { Link, router, usePage } from "@inertiajs/react";
 import { LogOut, PackageOpen, User } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { Toaster } from "@/Components/ui/sonner";
 
 export default function AuthenticatedLayout({ header, children }: any) {
     // const user = usePage().props.auth.user;
@@ -91,6 +92,7 @@ export default function AuthenticatedLayout({ header, children }: any) {
             )}
 
             <main>{children}</main>
+            <Toaster />
         </div>
     );
 }

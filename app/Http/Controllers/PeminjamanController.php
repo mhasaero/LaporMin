@@ -67,10 +67,10 @@ class PeminjamanController extends Controller
             'tanggal_disetujui' => now(),
         ]);
 
-        $status = StatusBarang::where('barang_id', $peminjaman->id)->first();
+        $status = StatusBarang::where('barang_id', $peminjaman->barang_id)->first();
         if ($status) {
             $status->decrement('status_tersedia');
-            $status->increment('status_dipinjam');
+            $status->increment('status_sedang_dipinjam');
         }
         
         return redirect()->back()->with('success', 'Peminjaman disetujui.');
@@ -99,7 +99,7 @@ class PeminjamanController extends Controller
         $status = StatusBarang::where('barang_id', $peminjaman->barang_id)->first();
         if ($status) {
             $status->increment('status_tersedia');
-            $status->decrement('status_dipinjam');
+            $status->decrement('status_sedang_dipinjam');
         }
 
         return redirect()->back()->with('success', 'Barang berhasil dikembalikan.');

@@ -61,7 +61,7 @@ export default function AdminLayout({
                         <Home className="w-5 h-5" /> Dashboard
                     </Link>
                     <Link
-                        href="/profile/edit"
+                        href="/profile"
                         className="hover:text-blue-600 flex items-center gap-1"
                     >
                         <User className="w-5 h-5" /> Profile
@@ -98,10 +98,7 @@ export default function AdminLayout({
                     >
                         <Home className="w-5 h-5" /> Dashboard
                     </Link>
-                    <Link
-                        href="/profile/edit"
-                        className=" flex items-center gap-2"
-                    >
+                    <Link href="/profile" className=" flex items-center gap-2">
                         <User className="w-5 h-5" /> Profile
                     </Link>
                 </div>
