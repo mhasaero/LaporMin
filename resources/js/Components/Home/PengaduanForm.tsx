@@ -16,6 +16,7 @@ import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { Textarea } from "../ui/textarea";
 import { useState } from "react";
+import { uploadToCloudinary } from "@/lib/cloudinary";
 
 // const formSchema = z.object({
 //     nama: z.string(),
@@ -61,9 +62,32 @@ export default function PengaduanForm() {
         resolver: zodResolver(formSchema),
     });
 
-    function onSubmit(values: z.infer<typeof formSchema>) {
-        console.log(values.images);
+    async function onSubmit(values: z.infer<typeof formSchema>) {
+        try {
+            const uploadPreset = "lapormin_pengaduan";
+            if (!uploadPreset) {
+                throw new Error("UPLOAD_PRESET not defined");
+            }
+
+            const files: File[] = Array.from(values.images);
+            const uploadedUrls = await Promise.all(
+                files.map((file) => uploadToCloudinary(file, uploadPreset))
+            );
+
+            // Kirim ke backend Laravel melalui Inertia
+            router.post("/pengaduan", {
+                name: values.name,
+                msg: values.msg,
+                link_gambar: uploadedUrls, // array of URLs
+            });
+        } catch (error) {
+            console.error("Upload error:", error);
+            alert(
+                "Terjadi kesalahan saat mengunggah gambar atau mengirim form."
+            );
+        }
     }
+
     return (
         <div id="pengaduan" className="w-full flex justify-center">
             <div className="flex flex-col w-full bg-gray-100 py-8 px-20 rounded-2xl my-36">

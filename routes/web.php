@@ -27,6 +27,7 @@ Route::middleware(['auth'])->group(function () {
 Route::get('/pengaduan', function () {
     return Inertia::render('Dashboard/Pengaduan');
 })->name('pengaduan');
+Route::post('/pengaduan', [PengaduanController::class, 'store'])->name('pengaduan.store');
 
 // Route::get('/dashboard', function () {
 //     return Inertia::render('Dashboard/Dashboard');

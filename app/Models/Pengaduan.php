@@ -16,4 +16,9 @@ class Pengaduan extends Model
         'msg',
         'link_gambar',
     ];
+
+    // Cast agar 'link_gambar' otomatis jadi array
+    protected $casts = [
+        'link_gambar' => 'array',
+    ];
 }
