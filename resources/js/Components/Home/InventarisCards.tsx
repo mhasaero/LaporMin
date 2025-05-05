@@ -6,7 +6,6 @@ type Props = {
 };
 
 export default function InventarisCards({ barang }: Props) {
-    console.log(barang);
     return (
         <div className="w-full py-4">
             <div className="w-full place-items-center grid grid-cols-3 gap-10">

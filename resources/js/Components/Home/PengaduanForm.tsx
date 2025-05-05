@@ -17,12 +17,6 @@ import { Label } from "../ui/label";
 import { Textarea } from "../ui/textarea";
 import { useState } from "react";
 
-// const formSchema = z.object({
-//     nama: z.string(),
-//     pesan: z.string(),
-//     imgUrl: z.string(),
-// });
-
 const ACCEPTED_IMAGE_TYPES = [
     "image/jpeg",
     "image/jpg",
@@ -62,7 +56,11 @@ export default function PengaduanForm() {
     });
 
     function onSubmit(values: z.infer<typeof formSchema>) {
-        console.log(values.images);
+        router.post("/pengaduan", {
+            name: values.name,
+            msg: values.msg,
+        });
+        console.log(values.name);
     }
     return (
         <div id="pengaduan" className="w-full flex justify-center">

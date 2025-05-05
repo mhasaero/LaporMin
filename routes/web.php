@@ -13,6 +13,7 @@ use Inertia\Inertia;
 
 Route::get('/', [HomeController::class, 'index'])->name('home.index');
 Route::post('/', [BoxController::class, 'store'])->name('home.store');
+Route::post('/pengaduan', [PengaduanController::class, 'store'])->name('pengaduan.store');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('dashboard');
@@ -44,6 +45,5 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::post('/pengaduan', [PengaduanController::class, 'store'])->name('pengaduan.store');
 
 require __DIR__.'/auth.php';

@@ -58,7 +58,7 @@ export default function Register() {
             nim: nim,
             fakultas: fakultasValidate(nim),
             jurusan: jurusanValidate(nim, fakultasValidate(nim)),
-            no_telp: "",
+            no_telp: "-",
         };
         console.log(fixedValues);
 
