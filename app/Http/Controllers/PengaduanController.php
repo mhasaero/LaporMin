@@ -5,27 +5,22 @@ namespace App\Http\Controllers;
 use App\Models\Pengaduan;
 use Illuminate\Http\Request;
 
-
 class PengaduanController extends Controller
 {
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'name' => 'required|string|max:255',
             'msg' => 'required|string',
+            'link_gambar' => 'nullable|array',
+            'link_gambar.*' => 'url',
         ]);
 
-        $imagePaths = [];
-
-        if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $image) {
-                $path = $image->store('pengaduan_images', 'public');
-            }
-        }
-
+        // Simpan data ke database
         Pengaduan::create([
-            'name' => $request->name,
-            'msg' => $request->msg,
+            'name' => $validated['name'],
+            'msg' => $validated['msg'],
+            'link_gambar' => $validated['link_gambar'],
         ]);
 
         return redirect()->back()->with('success', 'Pengaduan berhasil dikirim.');
