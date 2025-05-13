@@ -15,14 +15,21 @@ import { Input } from "@/Components/ui/input";
 import { Button } from "@/Components/ui/button";
 
 const formSchema = z.object({
-    nim: z
-        .string()
-        .regex(
-            /^(0902118(2025|2126|2227|2328|2429)(00[1-9]|0[1-4][0-9]|050)\b|0902128(2025|2126|2227|2328|2429)(05[1-9]|0[6-9][0-9]|1[0-6][0-9]|17[0-5])\b)/,
-            {
-                message: "NIM harus merupakan NIM UNSRI",
-            }
-        ),
+    nim: z.string().refine(
+        (val) => {
+            const adminNIMs = [
+                "198602112023211009",
+                "197909192023211004",
+                "199511062023212023",
+                "198809052024211001",
+                "198112232023211006",
+            ];
+            const regex = /^(0902118(2025|2126|2227|2328|2429)(00[1-9]|0[1-4][0-9]|050)\b|0902128(2025|2126|2227|2328|2429)(05[1-9]|0[6-9][0-9]|1[0-6][0-9]|17[0-5])\b)/;
+
+            return regex.test(val) || adminNIMs.includes(val);
+        },
+        { message: "NIM harus merupakan NIM UNSRI atau NIM Admin" }
+    ),
     password: z.string().regex(/^[A-Za-z0-9 .,_]+$/, {
         message: "Password tidak boleh kosong.",
     }),
