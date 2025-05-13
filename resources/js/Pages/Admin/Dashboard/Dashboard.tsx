@@ -1,6 +1,6 @@
 import AdminLayout from "@/Layouts/AdminLayout";
 import { uploadToCloudinary } from "@/lib/cloudinary";
-import { Head, useForm } from "@inertiajs/react";
+import { Head, router, useForm } from "@inertiajs/react";
 import { useState } from "react";
 
 interface DashboardProps {
@@ -44,6 +44,7 @@ export default function Dashboard({
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+
         if (editing) {
             put(`/barang/${data.id}`, {
                 onSuccess: () => {
@@ -52,25 +53,31 @@ export default function Dashboard({
                 },
             });
         } else {
+            console.log("Uploading file:", data.gambar);
             const uploadPreset = "lapormin_barang";
-            if (!uploadPreset) {
-                throw new Error("UPLOAD_PRESET not defined");
-            }
 
-            let uploadedUrl = "";
+            let uploadedUrl = data.link_gambar;
+
             if (data.gambar instanceof File) {
                 uploadedUrl = await uploadToCloudinary(
                     data.gambar,
                     uploadPreset
                 );
             }
-            console.log(uploadedUrl);
-            setData("link_gambar", uploadedUrl);
 
-            console.log(data);
-            post("/barang", {
-                onSuccess: () => reset(),
-            });
+            console.log("Uploaded URL:", uploadedUrl);
+
+            // Bypass useForm state and send full object directly
+            router.post(
+                "/barang",
+                {
+                    ...data,
+                    link_gambar: uploadedUrl,
+                },
+                {
+                    onSuccess: () => reset(),
+                }
+            );
         }
     };
 
