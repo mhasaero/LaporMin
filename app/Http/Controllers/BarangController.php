@@ -29,13 +29,16 @@ class BarangController extends Controller
 
     public function store(Request $request)
     {
+        dd($request->all());
         $validated = $request->validate([
             'nama_barang' => 'required|string|max:255',
             'kategori'    => 'required|string|max:100',
             'deskripsi'   => 'nullable|string',
             'stok'        => 'required|integer|min:0',
             'lokasi'      => 'required|string|max:100',
+            'link_gambar' => 'nullable|string',
         ]);
+
 
         $insertBarang = Barang::create($validated);
 

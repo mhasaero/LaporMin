@@ -1,4 +1,5 @@
 import AdminLayout from "@/Layouts/AdminLayout";
+import { uploadToCloudinary } from "@/lib/cloudinary";
 import { Head, useForm } from "@inertiajs/react";
 import { useState } from "react";
 
@@ -34,12 +35,14 @@ export default function Dashboard({
         deskripsi: "",
         stok: "",
         lokasi: "",
+        gambar: "" as File | string,
+        link_gambar: "",
         status_tersedia: "",
         status_sedang_dipinjam: "",
         status_rusak: "",
     });
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (editing) {
             put(`/barang/${data.id}`, {
@@ -49,6 +52,22 @@ export default function Dashboard({
                 },
             });
         } else {
+            const uploadPreset = "lapormin_barang";
+            if (!uploadPreset) {
+                throw new Error("UPLOAD_PRESET not defined");
+            }
+
+            let uploadedUrl = "";
+            if (data.gambar instanceof File) {
+                uploadedUrl = await uploadToCloudinary(
+                    data.gambar,
+                    uploadPreset
+                );
+            }
+            console.log(uploadedUrl);
+            setData("link_gambar", uploadedUrl);
+
+            console.log(data);
             post("/barang", {
                 onSuccess: () => reset(),
             });
@@ -64,6 +83,8 @@ export default function Dashboard({
             deskripsi: item.deskripsi,
             stok: item.stok,
             lokasi: item.lokasi,
+            gambar: item.gambar,
+            link_gambar: item.link_gambar,
             status_tersedia: item.status?.status_tersedia || "",
             status_sedang_dipinjam: item.status?.status_sedang_dipinjam || "",
             status_rusak: item.status?.status_rusak || "",
@@ -311,6 +332,22 @@ export default function Dashboard({
                                                 )
                                             }
                                             required
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-medium mb-1">
+                                            Gambar
+                                        </label>
+                                        <input
+                                            className="border p-2 w-full"
+                                            type="file"
+                                            accept="image/*"
+                                            onChange={(e) =>
+                                                setData(
+                                                    "gambar",
+                                                    e.target.files?.[0] || ""
+                                                )
+                                            }
                                         />
                                     </div>
                                     <button
