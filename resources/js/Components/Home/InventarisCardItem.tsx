@@ -47,7 +47,7 @@ export default function InventarisCardItem({
         //     </div>
         // </div>
         <div className="relative w-full h-52 lg:h-72 xl:h-80 bg-white rounded-3xl shadow-xl overflow-hidden group text-[#23318C] cursor-pointer transition-all duration-300 hover:shadow-2xl">
-            <div className="absolute inset-0 bg-[#f8f9fa] bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNlY2VlZjAiIGZpbGwtb3BhY2l0eT0iMC40Ij48cGF0aCBkPSJNMzYgMzRjMC0yLjIgMS44LTQgNC00czQgMS44IDQgNC0xLjggNC00IDQtNC0xLjgtNC00em0tMjQgMGMwLTIuMiAxLjgtNCA0LTRzNCAxLjggNCA0LTEuOCA0LTQgNC00LTEuOC00LTR6TTAgMGg2MHY2MEgweiIvPjwvZz48L2c+PC9zdmc+')]"></div>
+            <div className="absolute inset-0 bg-[#23318C]"></div>
 
             <div className="absolute bottom-0 w-full h-1/3 bg-white/90 backdrop-blur-sm group-hover:h-full transition-all duration-500 ease-in-out flex flex-col p-4">
                 <div className="flex flex-col items-center justify-center h-full group-hover:hidden transition-all">

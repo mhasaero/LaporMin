@@ -1,4 +1,4 @@
-import { Head, router } from "@inertiajs/react";
+import { Head, router, usePage } from "@inertiajs/react";
 import { Button } from "@/Components/ui/button";
 import BoxLayout from "@/Layouts/BoxLayout";
 import { Input } from "@/Components/ui/input";
@@ -20,6 +20,9 @@ type Props = {
 export default function Confirm({ selectedBox }: Props) {
     const [ruangan, setRuangan] = useState("");
     const [alasan, setAlasan] = useState("");
+    const { auth } = usePage().props as any;
+
+    console.log(auth.user);
 
     function handleSubmit() {
         const selectedIds = selectedBox.map((item) => item.barang.id);
@@ -42,10 +45,12 @@ export default function Confirm({ selectedBox }: Props) {
                             Peminjam
                         </h1>
                         <div className="space-y-1 text-lg">
-                            <p>Miranti (+6282278424181)</p>
                             <p>
-                                Fakultas Ilmu Komputer - Teknik Informatika -
-                                09021282328073
+                                {auth.user.name} ({auth.user.no_telp})
+                            </p>
+                            <p>
+                                {auth.user.fakultas} - {auth.user.jurusan} -
+                                {auth.user.nim}
                             </p>
                         </div>
                     </div>

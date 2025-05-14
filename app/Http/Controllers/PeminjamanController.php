@@ -46,7 +46,7 @@ class PeminjamanController extends Controller
             ]);
         }
 
-        return redirect()->route('dashboard')->with('success', 'Peminjaman berhasil diupdate!');
+        return redirect()->route('home.index')->with('success', 'Peminjaman berhasil diupdate!');
     }
 
     public function showApproval(Peminjaman $peminjaman)

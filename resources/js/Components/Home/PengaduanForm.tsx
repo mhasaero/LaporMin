@@ -17,6 +17,7 @@ import { Label } from "../ui/label";
 import { Textarea } from "../ui/textarea";
 import { useState } from "react";
 import { uploadToCloudinary } from "@/lib/cloudinary";
+import { toast } from "sonner";
 
 // const formSchema = z.object({
 //     nama: z.string(),
@@ -81,6 +82,9 @@ export default function PengaduanForm() {
                 msg: values.msg,
                 link_gambar: uploadedUrls, // array of URLs
             });
+
+            toast.success("Pengaduan berhasil dikirim!");
+            form.reset();
         } catch (error) {
             console.error("Upload error:", error);
             alert(
