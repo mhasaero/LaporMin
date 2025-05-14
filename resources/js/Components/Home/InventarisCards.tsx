@@ -20,6 +20,7 @@ export default function InventarisCards({ barang }: Props) {
                             lokasi={item.barang.lokasi}
                             stok={item.barang.stok}
                             status={item.status_tersedia}
+                            link_gambar={item.status_barang.link_gambar}
                         />
                     ))}
             </div>

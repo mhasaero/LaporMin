@@ -1,3 +1,4 @@
+import { link } from "fs";
 import { Button } from "../ui/button";
 import { router } from "@inertiajs/react";
 
@@ -9,6 +10,7 @@ type Props = {
     lokasi: string;
     stok: string;
     status: string;
+    link_gambar: string;
 };
 
 export default function InventarisCardItem({
@@ -19,7 +21,9 @@ export default function InventarisCardItem({
     lokasi,
     stok,
     status,
+    link_gambar,
 }: Props) {
+    console.log(link_gambar);
     const handlePinjam = () => {
         console.log("barang_id", id, "quantity", 1);
         router.post("/", {
@@ -46,8 +50,17 @@ export default function InventarisCardItem({
         //         </div>
         //     </div>
         // </div>
-        <div className="relative w-full h-52 lg:h-72 xl:h-80 bg-white rounded-3xl shadow-xl overflow-hidden group text-[#23318C] cursor-pointer transition-all duration-300 hover:shadow-2xl">
-            <div className="absolute inset-0 bg-[#23318C]"></div>
+        <div
+            // style={{ backgroundImage: `url(${link_gambar})` }}
+            className={`relative w-full h-52 lg:h-72 xl:h-80 rounded-3xl shadow-xl bg-cover bg-center overflow-hidden group text-[#23318C] cursor-pointer transition-all duration-300 hover:shadow-2xl`}
+        >
+            <div className={`absolute inset-0 `}></div>
+            <img
+                src={link_gambar}
+                alt={link_gambar}
+                className="w-full h-full object-cover group-hover:scale-105 transition-all duration-500 ease-in-out"
+                loading="lazy"
+            />
 
             <div className="absolute bottom-0 w-full h-1/3 bg-white/90 backdrop-blur-sm group-hover:h-full transition-all duration-500 ease-in-out flex flex-col p-4">
                 <div className="flex flex-col items-center justify-center h-full group-hover:hidden transition-all">
